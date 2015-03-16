@@ -22,4 +22,4 @@ This is the summary of my book.
 	* [实现自定义编解码器](ADVANCED TOPICS/Implement a custom codec.md)
 	* [EventLoop 和线程模型](ADVANCED TOPICS/EventLoop and thread model.md)
 	* [用例1：Droplr Firebase 和 Urban Airship](ADVANCED TOPICS/Droplr Firebase and Urban Airship.md)
-	* [用例2：Facebook 和 Twitter](ADVANCED TOPICS/Case Studies, Part 2: Facebook and Twitter.md)
+	* [用例2：Facebook 和 Twitter](ADVANCED TOPICS/Facebook and Twitter.md)
