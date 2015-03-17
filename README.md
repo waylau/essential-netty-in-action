@@ -1,6 +1,6 @@
 # Essential Netty in Action 《Netty 实战(精髓)》
 
-![](../images/netty-in-action-logo.jpg)
+![](images/netty-in-action-logo.jpg)
 
 It is a book about the Essentials of Norman Maurer's [Netty in Action](http://manning.com/maurer/)(base on MEAP v10). Through this book, you can quickly start with Netty. This is a GitBook version of the book: <http://waylau.gitbooks.io/essential-netty-in-action/>
 Let's [READ](SUMMARY.md)!
