@@ -11,6 +11,7 @@ This is the summary of my book.
 		* [设置开发环境](GETTING STARTED/Setting up the development environment.md)
 		* [Netty 客户端/服务端 总览](GETTING STARTED/Netty client  server overview.md)
 		* [写一个 echo 服务器](GETTING STARTED/Writing the echo server.md)
+		* [写一个 echo 客户端](GETTING STARTED/Writing an echo client.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
 * 核心功能
  	* [Transports](CORE FUNCTIONS/Transports.md)
