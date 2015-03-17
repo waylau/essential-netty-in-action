@@ -6,6 +6,7 @@ This is the summary of my book.
 	* [Netty-异步和数据驱动](GETTING STARTED/Asynchronous and Event Driven.md)
 		* [Netty 介绍](GETTING STARTED/Introducing Netty.md)
 		* [构成部分](GETTING STARTED/Building Blocks)
+		* [关于本书](GETTING STARTED/About this Book.md)
 	* [第一个 Netty 应用](GETTING STARTED/Your first Netty application.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
 * 核心功能
