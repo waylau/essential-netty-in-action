@@ -68,7 +68,7 @@ Input/Output。你也可能会遇到普通 I/O。*
 
 Figure 1.1 Blocking I/O
 
-![](images/Figure 1.1 Blocking IO.jpg)
+![](../images/Figure 1.1 Blocking IO.jpg)
 
 当你的应用中连接数比较少，这个方案还是可以接受。当并发连接超过10000 时，context-switching（上下文切换）开销将是明显的。此外，每个线程都有一个默认的堆栈内存分配了 128K 和 1M 之间的空间。考虑到整体的内存和操作系统需要处理 100000 个或更多的并发连接资源，这似乎是一个不理想的解决方案。
 
@@ -79,7 +79,7 @@ Figure 1.1 Blocking I/O
 
 Figure 1.2 Nonblocking I/O
 
-![](images/Figure 1.2 Nonblocking IO.jpg)
+![](../images/Figure 1.2 Nonblocking IO.jpg)
 
 Selector 最终决定哪一组注册的 socket 准备执行 I/O。正如我们之前所解释的那样，这 I/O 操作设置为非阻塞模式。通过通知，一个线程可以同时处理多个并发连接。（一个 Selector 由一个线程通常处理，但具体实施可以使用多个线程。）因此，每次读或写操作执行能立即检查完成。总体而言，该模型提供了逼 阻塞 I/O 模型 更好的资源使用，因为
 
