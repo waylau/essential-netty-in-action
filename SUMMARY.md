@@ -12,6 +12,7 @@ This is the summary of my book.
 		* [Netty 客户端/服务端 总览](GETTING STARTED/Netty client  server overview.md)
 		* [写一个 echo 服务器](GETTING STARTED/Writing the echo server.md)
 		* [写一个 echo 客户端](GETTING STARTED/Writing an echo client.md)
+		* [编译和运行 Echo 服务器和客户端](GETTING STARTED/Building and running the Echo Server and Client.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
 * 核心功能
  	* [Transports](CORE FUNCTIONS/Transports.md)
