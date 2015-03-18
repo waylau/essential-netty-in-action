@@ -7,9 +7,9 @@ Figure 3.1
 
 ![](../images/Figure 3.1.jpg)
 
-该图显示，一个 EventLoopGroup 具有一个或多个 EventLoop。想象 EventLoop 作为一个线程执行一个通道的 Channel 工作。 （事实上，一个 EventLoop 是势必为它的生命周期一个线程。）
-当创建一个通道，Netty的注册该通道的单一事件循环实例
-（并因此到单个螺纹）的通道的使用寿命。这就是为什么你的应用程序
-没有按吨需要对Netty的I / O操作同步？;所有的I/ O对于给定的通道将
+该图显示，一个 EventLoopGroup 具有一个或多个 EventLoop。想象 EventLoop 作为一个 Thread 给 Channel 执行工作。 （事实上，一个 EventLoop 是势必为它的生命周期一个线程。）
+
+当创建一个 Channel，Netty 通过 一个单独的 EventLoop 实例来注册该 Channel（并同样是一个单独的 Thread）的通道的使用寿命。这就是为什么你的应用程序不需要同步 Netty 的 I/O操作;所有 Channel 的 I/O
 始终用相同的线程来执行。
-我们将在第15章进一步讨论事件循环和EventLoopGroup。
+
+我们将在第15章进一步讨论 EventLoop 和 EventLoopGroup。
