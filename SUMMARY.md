@@ -15,6 +15,7 @@ This is the summary of my book.
 		* [编译和运行 Echo 服务器和客户端](GETTING STARTED/Building and running the Echo Server and Client.md)
 		* [总结](GETTING STARTED/Summary.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
+		* [Netty 快速入门](GETTING STARTED/Netty Crash Course.md)
 * 核心功能
  	* [Transports](CORE FUNCTIONS/Transports.md)
  	* [Buffers](CORE FUNCTIONS/Buffers.md)
