@@ -16,6 +16,7 @@ This is the summary of my book.
 		* [总结](GETTING STARTED/Summary.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
 		* [Netty 快速入门](GETTING STARTED/Netty Crash Course.md)
+		* [Channel, Event 和 I/O](GETTING STARTED/Channels, Events and IO.md)
 * 核心功能
  	* [Transports](CORE FUNCTIONS/Transports.md)
  	* [Buffers](CORE FUNCTIONS/Buffers.md)
