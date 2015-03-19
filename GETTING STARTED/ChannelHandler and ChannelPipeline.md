@@ -16,7 +16,7 @@ Netty 中有两个方向的数据流，图3.4 显示的入站(ChannelInboundHand
 
 Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandlers
 
-![](../images/Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandler.jpg)
+![](../images/Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandlers.jpg)
 
 图 3.4 同样展示了进站和出站的处理器都可以被安装在相同的 pipeline 。本例子中，如果消息或任何其他入站事件被读到，将从 pipeline 头部开始，传递到第一个 ChannelInboundHandler。该处理器可能会或可能不会实际修改数据，取决于其特定的功能，在这之后
 该数据将被传递到链中的下一个 ChannelInboundHandler。最后，将数据
