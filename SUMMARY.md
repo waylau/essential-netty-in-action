@@ -19,6 +19,7 @@ This is the summary of my book.
 		* [Channel, Event 和 I/O](GETTING STARTED/Channels, Events and IO.md)
 		* [什么是 Bootstrapping 为什么要用](GETTING STARTED/The What and Why of Bootstrapping.md)
 		* [ChannelHandler 和 ChannelPipeline](GETTING STARTED/ChannelHandler and ChannelPipeline.md)
+		* [近距离观察 ChannelHandler](GETTING STARTED/A Closer Look at ChannelHandlers.md)
 * 核心功能
  	* [Transports](CORE FUNCTIONS/Transports.md)
  	* [Buffers](CORE FUNCTIONS/Buffers.md)
