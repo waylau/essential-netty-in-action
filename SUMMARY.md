@@ -22,8 +22,8 @@ This is the summary of my book.
 		* [近距离观察 ChannelHandler](GETTING STARTED/A Closer Look at ChannelHandlers.md)
 		* [总结](GETTING STARTED/3.6  Summary.md)
 * 核心功能
- 	* [Transports](CORE FUNCTIONS/Transports.md)
- 	* [Buffers](CORE FUNCTIONS/Buffers.md)
+ 	* [Transport](CORE FUNCTIONS/Transports.md)
+ 	* [Buffer](CORE FUNCTIONS/Buffers.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
  	* [提供 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
