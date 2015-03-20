@@ -23,6 +23,8 @@ This is the summary of my book.
 		* [总结](GETTING STARTED/3.6  Summary.md)
 * 核心功能
  	* [Transport](CORE FUNCTIONS/Transports.md)
+		* [案例研究:Transport 的迁移](CORE FUNCTIONS/Case study transport migration.md)
+		* [Transport API](CORE FUNCTIONS/Transport API.md)
  	* [Buffer](CORE FUNCTIONS/Buffers.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
