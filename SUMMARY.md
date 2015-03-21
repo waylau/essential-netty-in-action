@@ -26,6 +26,7 @@ This is the summary of my book.
 		* [案例研究:Transport 的迁移](CORE FUNCTIONS/Case study transport migration.md)
 		* [Transport API](CORE FUNCTIONS/Transport API.md)
 		* [包含的 Transport](CORE FUNCTIONS/Included transports.md)
+		* [Transport 使用案例](CORE FUNCTIONS/Transport Use Cases.md)
  	* [Buffer](CORE FUNCTIONS/Buffers.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
