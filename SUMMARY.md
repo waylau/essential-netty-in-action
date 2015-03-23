@@ -30,6 +30,7 @@ This is the summary of my book.
 		* [总结](CORE FUNCTIONS/4.5  Summary.md)
  	* [Buffer（缓冲）](CORE FUNCTIONS/Buffers.md)
 		* [Buffer API](CORE FUNCTIONS/Buffer API.md)
+		* [ByteBuf - 字节数据的容器](CORE FUNCTIONS/ByteBuf - The byte data container.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
  	* [提供 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
