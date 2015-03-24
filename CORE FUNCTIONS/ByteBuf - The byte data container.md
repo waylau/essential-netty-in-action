@@ -56,15 +56,116 @@ Listing 5.1 Backing array
 
 “直接缓冲区”是另一个 ByteBuf 模式。对象的所有内存分配发生在
 堆，对不对？好吧，并非总是如此。在 JDK1.4 中被引入 NIO 的ByteBuffer 类允许一个 JVM 实现通过本地调用分配内存，其目的是
-为了避免之前复制缓冲区的内容（或）中间缓冲区（或
-后）的底层操作系统的本机我的一个在每次调用/ O
-操作。
-。 。 。
+
+* 通过免去中间交换的内存拷贝, 提升IO处理速度;
 直接缓冲区的内容可以驻留的正常垃圾回收以外
 堆。
-这就解释了为什么“直接缓冲区”是理想的数据传输通过套接字。如果你的数据是
-包含在堆中分配的缓冲区，JVM实际上将复制您的缓冲区，直接缓冲区
-之前在内部通过套接字发送。
+* DirectBuffer 在 -XX:MaxDirectMemorySize=xxM大小限制下, 使用 Heap 之外的内存, GC对此”无能为力”,也就意味着规避了在高负载下频繁的GC过程对应用线程的中断影响.(详见<http://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html.>)
+
+这就解释了为什么“直接缓冲区”是理想的 通过 socket 实现数据传输。如果你的数据是包含在堆中分配的缓冲区，JVM 实际上在通过 socket 发送之前将复制您的缓冲区到直接缓冲区。
+
+但是直接缓冲区的缺点是在分配内存空间和释放内存时比堆缓冲区更复杂，另外一个缺点是如果是与传统的代码工作;因为数据不是在堆上，你可能要作出一个副本，如下：
+
+Listing 5.2 Direct buffer data access
+
+	ByteBuf directBuf = ...
+    if (!directBuf.hasArray()) {			//1
+        int length = directBuf.readableBytes();//2
+        byte[] array = new byte[length];	//3
+        directBuf.getBytes(directBuf.readerIndex(), array);		//4	
+        handleArray(array, 0, length);  //5
+    }
+
+1.检查 ByteBuf 不是由数组支持。如果不是，这是一个直接缓冲液。
+
+2.获取可读的字节数
+
+3.分配一个新的数组来保存字节
+
+4.字节复制到数组
+
+5.调用一些参数是 数组，偏移量和长度 的方法
+
+显然，这涉及到比使用支持数组多做一些工作。因此，如果你知道事先在容器中的数据作为一个数组进行访问，你可能更愿意使用堆内存。
 
 
-直接缓冲区，在堆之外直接分配内存。直接缓冲区不会占用堆空间容量，使用时应该考虑到应用程序要使用的最大内存容量以及如何限制它。直接缓冲区在使用Socket传递数据时性能很好，因为若使用间接缓冲区，JVM会先将数据复制到直接缓冲区再进行传递；但是直接缓冲区的缺点是在分配内存空间和释放内存时比堆缓冲区更复杂，而Netty使用内存池来解决这样的问题，这也是Netty使用内存池的原因之一。直接缓冲区不支持数组访问数据，但是我们可以间接的访问数据数组，如下面代码：
+####COMPOSITE BUFFER(复合缓冲区)
+
+最后一种模式是复合缓冲区，我们可以创建多个不同的 ByteBuf，然后提供一个这些 ByteBuf 组合的视图。复合缓冲区就像一个列表，我们可以动态的添加和删除其中的 ByteBuf，JDK 的 ByteBuffer 没有这样的功能。
+
+Netty 提供了 ByteBuf 的子类 CompositeByteBuf 类来处理复合缓冲区，CompositeByteBuf 只是一个视图。
+
+*警告*
+
+*CompositeByteBuf.hasArray() 总是返回 false，因为它可能包含一些直接或间接的不同类型的 ByteBuf。*
+
+例如，一条消息由 header 和 body 两部分组成，将 header 和 body 组装成一条消息发送出去，可能 body 相同，只是 header 不同，使用CompositeByteBuf 就不用每次都重新分配一个新的缓冲区。下图显示CompositeByteBuf 组成 header 和 body：
+
+Figure 5.2 CompositeByteBuf holding a header and body
+
+![](../images/Figure 5.2 CompositeByteBuf holding a header and body.jpg)
+
+下面代码显示了使用 JDK 的 ByteBuffer 的一个实现。两个 ByteBuffer 的数组创建保存消息的组件，第三个创建用于保存所有数据的副本。
+
+Listing 5.3 Composite buffer pattern using ByteBuffer
+
+    // 使用数组保存消息的各个部分
+    ByteBuffer[] message = { header, body };
+
+    // 使用副本来合并这两个部分
+    ByteBuffer message2 = ByteBuffer.allocate(
+            header.remaining() + body.remaining());
+    message2.put(header);
+    message2.put(body);
+    message2.flip();
+
+这种做法显然是低效的;分配和复制操作是不是最佳的，操纵阵列使代码尴尬。
+
+下面看下 CompositeByteBuf 的版本
+
+Listing 5.4 Composite buffer pattern using CompositeByteBuf
+
+    CompositeByteBuf messageBuf = ...;
+	ByteBuf headerBuf = ...; // 可以支持或直接
+	ByteBuf bodyBuf = ...; // 可以支持或直接
+    messageBuf.addComponents(headerBuf, bodyBuf);
+    // ....
+    messageBuf.removeComponent(0); // 移除头	//2
+
+    for (int i = 0; i < messageBuf.numComponents(); i++) {						//3
+        System.out.println(messageBuf.component(i).toString());
+    }
+
+1.追加 ByteBuf 实例的 CompositeByteBuf
+
+2.删除  索引1的 ByteBuf
+
+3.遍历所有 ByteBuf 实例。
+
+清单5.4 所示，你可以简单地把一个 CompositeByteBuf 作为一个迭代
+收集器。因为 CompositeByteBuf 不允许到间接数组访问，数据访问，
+见清单5.5，类似于直接缓冲区模式：
+
+Listing 5.5 Access data
+
+	CompositeByteBuf compBuf = ...;
+    int length = compBuf.readableBytes();	//1
+    byte[] array = new byte[length];		//2
+    compBuf.getBytes(compBuf.readerIndex(), array);	//3
+    handleArray(array, 0, length);	//4
+
+1.得到的可读的字节数。
+
+2.分配一个新的数组,为可读字节长度。
+
+3.读取字节到数组
+
+4.使用数组，偏移量和长度作为参数
+
+Netty 尝试使用 CompositeByteBuf 优化 socket I/O 操作，消除
+当可能发生的是与 JDK 实现的性能和内存使用情况的问题。虽然是在Netty 的核心代码进行这种优化，并且是不暴露的，人们应该意识到其影响。
+
+*CompositeByteBuf API*
+
+*CompositeByteBuf 提供了大量的附加功能超出了它所继承的 ByteBuf。请参阅的 Netty 的 Javadoc 文档 API。*
+
