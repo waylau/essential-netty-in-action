@@ -42,7 +42,8 @@ This is the summary of my book.
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
-	* [WebSockets](NETTY BY EXAMPLE/WebSockets.md)
+	* [WebSocket](NETTY BY EXAMPLE/WebSockets.md)
+		* [WebSocket 程序示例](NETTY BY EXAMPLE/The example WebSockets application.md)
 	* [SPDY](NETTY BY EXAMPLE/SPDY.md)
 	* [通过 UDP 广播事件](NETTY BY EXAMPLE/Broadcasting events with UDP.md)
 * 高级主题
