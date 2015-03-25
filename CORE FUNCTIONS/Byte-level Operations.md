@@ -255,14 +255,13 @@ Table 5.3 read() operations
 
 方法名称     | 描述
 -------- | ---
-readBoolean()　 |　Reads the Boolean value at the current readerIndex and increases the
-readerIndex by 1.
-readByte()　readUnsignedByte()　|Reads the (unsigned) byte value at the current readerIndex and increases　the readerIndex by 1.
+readBoolean()　 |　Reads the Boolean value at the current readerIndex and increases the readerIndex by 1.
+readByte()　readUnsignedByte()　| Reads the (unsigned) byte value at the current readerIndex and increases　the readerIndex by 1.
 readMedium()　readUnsignedMedium()　|Reads the (unsigned) 24-bit medium value at the current readerIndex and　increases the readerIndex by 3.
 readInt()　readUnsignedInt() |　Reads the (unsigned) int value at the current readerIndex and increases　the readerIndex by 4.
 readLong()　readUnsignedLong()　 |　Reads the (unsigned) int value at the current readerIndex and increases　the readerIndex by 8.
-readShort()　readUnsignedShort()　|Reads the (unsigned) int value at the current readerIndex and increases　the readerIndex by 2.
-readBytes(int,int, ...) |Reads the value on the current readerIndex for the given length into the　given object. Also increases the readerIndex by the length.
+readShort()　readUnsignedShort()　| Reads the (unsigned) int value at the current readerIndex and increases　the readerIndex by 2.
+readBytes(int,int, ...) | Reads the value on the current readerIndex for the given length into the　given object. Also increases the readerIndex by the length.
 
 每个　read() 方法都对应一个　write()。 
 
@@ -270,7 +269,7 @@ Table 5.4 Write operations
 
 方法名称     | 描述
 -------- | ---
-writeBoolean(boolean)　｜　Writes the Boolean value on the current writerIndex and increases the　writerIndex by 1.
+writeBoolean(boolean)｜ Writes the Boolean value on the current writerIndex and increases the　writerIndex by 1.
 writeByte(int)　｜　Writes the byte value on the current writerIndex and increases the　writerIndex by 1.
 writeMedium(int)　｜　Writes the medium value on the current writerIndex and increases the　writerIndex by 3.
 writeInt(int)｜　Writes the int value on the current writerIndex and increases the　writerIndex by 4.
