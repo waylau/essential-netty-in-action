@@ -269,13 +269,13 @@ Table 5.4 Write operations
 
 方法名称     | 描述
 -------- | ---
-writeBoolean(boolean)｜ Writes the Boolean value on the current writerIndex and increases the　writerIndex by 1.
-writeByte(int)　｜　Writes the byte value on the current writerIndex and increases the　writerIndex by 1.
-writeMedium(int)　｜　Writes the medium value on the current writerIndex and increases the　writerIndex by 3.
-writeInt(int)｜　Writes the int value on the current writerIndex and increases the　writerIndex by 4.
-writeLong(long)｜　Writes the long value on the current writerIndex and increases the　writerIndex by 8.
-writeShort(int)｜　Writes the short value on the current writerIndex and increases thewriterIndex by 2.
-writeBytes(int，...） ｜　Transfers the bytes on the current writerIndex from given resources.
+writeBoolean(boolean) |　Writes the Boolean value on the current writerIndex and increases the　writerIndex by 1.
+writeByte(int) |　Writes the byte value on the current writerIndex and increases the　writerIndex by 1.
+writeMedium(int) |　Writes the medium value on the current writerIndex and increases the　writerIndex by 3.
+writeInt(int) |　Writes the int value on the current writerIndex and increases the　writerIndex by 4.
+writeLong(long) |　Writes the long value on the current writerIndex and increases the　writerIndex by 8.
+writeShort(int) |　Writes the short value on the current writerIndex and increases thewriterIndex by 2.
+writeBytes(int，...） |　Transfers the bytes on the current writerIndex from given resources.
 
 Listing 5.13 read()/write() operations on the ByteBuf
 
