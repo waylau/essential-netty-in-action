@@ -35,6 +35,7 @@ This is the summary of my book.
 		* [ByteBufHolder](CORE FUNCTIONS/ByteBufHolder.md)
 		* [ByteBuf 分配](CORE FUNCTIONS/ByteBuf allocation.md)
 		* [引用计数器](CORE FUNCTIONS/BReference counting.md)
+		* [总结](CORE FUNCTIONS/5.7  Summary.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
  	* [提供 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
