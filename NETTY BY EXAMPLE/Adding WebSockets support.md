@@ -160,6 +160,170 @@ PongWebSocketFrame  | sent as a response to a PingWebSocketFrame
 下面代码展示了 ChannelInboundHandler 处理 TextWebSocketFrame，同时也将跟踪在 ChannelGroup 中所有活动的 WebSocket 连接
 
 Listing 11.2 Handles Text frames
+	
+	public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> { //1
+	    private final ChannelGroup group;
+	
+	    public TextWebSocketFrameHandler(ChannelGroup group) {
+	        this.group = group;
+	    }
+	
+	    @Override
+	    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {	//2
+	        if (evt == WebSocketServerProtocolHandler.ServerHandshakeStateEvent.HANDSHAKE_COMPLETE) {
+	
+	            ctx.pipeline().remove(HttpRequestHandler.class);	//3
+	
+	            group.writeAndFlush(new TextWebSocketFrame("Client " + ctx.channel() + " joined"));//4
+	
+	            group.add(ctx.channel());	//5
+	        } else {
+	            super.userEventTriggered(ctx, evt);
+	        }
+	    }
+	
+	    @Override
+	    public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
+	        group.writeAndFlush(msg.retain());	//6
+	    }
+	}
+	
+1.扩展 SimpleChannelInboundHandler 用于处理 TextWebSocketFrame 信息 
+
+2.覆盖userEventTriggered() 方法来处理自定义事件 
+
+3.如果接收的事件表明握手成功,从 ChannelPipeline 删除HttpRequestHandler ，这样就不会有进一步的 HTTP 消息被接收
+
+4.写一条消息给所有的已连接 WebSocket 客户端，通知一个新的 Channel 连接上来了
+   
+5.添加新的 WebSocket Channel 到 ChannelGroup 中，这样它就能收到所有的信息
+
+6.保留收到的消息，并通过  writeAndFlush() 给所有连接的客户端。
+	
+上面显示了 TextWebSocketFrameHandler 仅作了几件事：
+
+* 当WebSocket 与新客户端已成功握手完成，通过写入信息到 ChannelGroup 中的 Channel  来通知所有连接的客户端，然后添加新 Channel 到 ChannelGroup
+* 如果接收到 TextWebSocketFrame，调用 retain() ，并将其写、刷新到 ChannelGroup，使所有连接的 WebSocket Channel 都能接收到它。和以前一样，retain() 是必需的，因为当 channelRead0（）返回时，TextWebSocketFrame 的引用计数将递减。由于所有操作都是异步的，writeAndFlush() 可能会在以后完成，我们不希望它来访问无效的引用。
+
+由于 Netty 处理了其余大部分功能，唯一剩下的我们现在要做的是初始化 ChannelPipeline 给每一个创建的新的 Channel 。做到这一点，我们需要一个ChannelInitializer
+
+###初始化 ChannelPipeline
+
+接下来，我们需要安装我们两个 ChannelHandler 到 ChannelPipeline。为此，我们需要 ChannelInitializer 和实现 initChannel()。看下面 ChatServerInitializer  的代码实现
+
+Listing 11.3 Init the ChannelPipeline
+
+	public class ChatServerInitializer extends ChannelInitializer<Channel> {	//1
+	    private final ChannelGroup group;
+	
+	    public ChatServerInitializer(ChannelGroup group) {
+	        this.group = group;
+	    }
+	
+	    @Override
+	    protected void initChannel(Channel ch) throws Exception {			//2
+	        ChannelPipeline pipeline = ch.pipeline();
+	        pipeline.addLast(new HttpServerCodec());
+	        pipeline.addLast(new HttpObjectAggregator(64 * 1024));
+	        pipeline.addLast(new ChunkedWriteHandler());
+	        pipeline.addLast(new HttpRequestHandler("/ws"));
+	        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+	        pipeline.addLast(new TextWebSocketFrameHandler(group));
+	    }
+	}
+
+1.扩展  ChannelInitializer
+
+2.添加 ChannelHandler　到 ChannelPipeline
+
+initChannel() 方法设置 ChannelPipeline 中所有新注册的 Channel,安装所有需要的　 ChannelHandler。总结如下：
+
+Table 11.2 ChannelHandlers for the WebSockets Chat server
+
+ChannelHandler　|　职责
+-------------- | ----
+HttpServerCodec |Decode bytes to HttpRequest, HttpContent, LastHttpContent.Encode HttpRequest, HttpContent, LastHttpContent to bytes.
+ChunkedWriteHandler | Write the contents of a file.
+HttpObjectAggregator | This ChannelHandler aggregates an HttpMessage and its following HttpContents into a single FullHttpRequest or FullHttpResponse (depending on whether it is being used to handle requests or responses).With this installed the next ChannelHandler in the pipeline will
+receive only full HTTP requests.
+HttpRequestHandler | Handle FullHttpRequests (those not sent to "/ws" URI).
+WebSocketServerProtocolHandler | As required by the WebSockets specification, handle the WebSocket Upgrade handshake, PingWebSocketFrames,PongWebSocketFrames and CloseWebSocketFrames.
+TextWebSocketFrameHandler | Handles TextWebSocketFrames and handshake completion events
+
+该 WebSocketServerProtocolHandler 处理所有规定的 WebSocket 帧类型和升级握手本身。如果握手成功所需 ChannelHandler 被添加到管道和那些不再需要则被去除。管道升级之前的状态如下图。这代表了 ChannelPipeline 刚刚经过 ChatServerInitializer 初始化。
+
+Figure 11.3 ChannelPipeline before WebSockets Upgrade
+
+![](../images/Figure 11.3 ChannelPipeline before WebSockets Upgrade.jpg)
+
+握手升级成功后 WebSocketServerProtocolHandler 替换HttpRequestDecoder 为 WebSocketFrameDecoder，HttpResponseEncoder 为WebSocketFrameEncoder。 为了最大化性能，WebSocket 连接不需要的 ChannelHandler 将会被移除。其中就包括了 HttpObjectAggregator 和 HttpRequestHandler
+
+下图，展示了 ChannelPipeline 经过这个操作完成后的情况。注意 Netty 目前支持四个版本 WebSocket 协议，每个通过其自身的方式实现类。选择正确的版本WebSocketFrameDecoder 和 WebSocketFrameEncoder 是自动进行的，这取决于在客户端（在这里指浏览器）的支持（在这个例子中，我们假设使用版本是 13 的 WebSocket 协议，从而图中显示的是 WebSocketFrameDecoder13 和 WebSocketFrameEncoder13）。
+
+Figure 11.4 ChannelPipeline after WebSockets Upgrade
+
+![](../images/Figure 11.4 ChannelPipeline after WebSockets Upgrade.jpg)
 
 
+###引导
 
+最后一步是 引导服务器，设置 ChannelInitializer
+
+
+	public class ChatServer {
+	
+	    private final ChannelGroup channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);//1
+	    private final EventLoopGroup group = new NioEventLoopGroup();
+	    private Channel channel;
+	
+	    public ChannelFuture start(InetSocketAddress address) {
+	        ServerBootstrap bootstrap  = new ServerBootstrap(); //2
+	        bootstrap.group(group)
+	                .channel(NioServerSocketChannel.class)
+	                .childHandler(createInitializer(channelGroup));
+	        ChannelFuture future = bootstrap.bind(address);
+	        future.syncUninterruptibly();
+	        channel = future.channel();
+	        return future;
+	    }
+	
+	    protected ChannelInitializer<Channel> createInitializer(ChannelGroup group) {		//3
+	       return new ChatServerInitializer(group);
+	    }
+	
+	    public void destroy() {		//4
+	        if (channel != null) {
+	            channel.close();
+	        }
+	        channelGroup.close();
+	        group.shutdownGracefully();
+	    }
+	
+	    public static void main(String[] args) throws Exception{
+	        if (args.length != 1) {
+	            System.err.println("Please give port as argument");
+	            System.exit(1);
+	        }
+	        int port = Integer.parseInt(args[0]);
+	
+	        final ChatServer endpoint = new ChatServer();
+	        ChannelFuture future = endpoint.start(new InetSocketAddress(port));
+	
+	        Runtime.getRuntime().addShutdownHook(new Thread() {
+	            @Override
+	            public void run() {
+	                endpoint.destroy();
+	            }
+	        });
+	        future.channel().closeFuture().syncUninterruptibly();
+	    }
+	}
+
+1.创建  DefaultChannelGroup 用来 保存所有连接的的 WebSocket channel
+
+2.引导 服务器
+
+3.创建 ChannelInitializer
+
+4.处理服务器关闭，包括释放所有资源
+ 
