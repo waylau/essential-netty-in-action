@@ -45,6 +45,7 @@ This is the summary of my book.
 	* [WebSocket](NETTY BY EXAMPLE/WebSockets.md)
 		* [WebSocket 程序示例](NETTY BY EXAMPLE/The example WebSockets application.md)
 		* [添加 WebSocket 支持](NETTY BY EXAMPLE/Adding WebSockets support.md)
+		* [测试程序](NETTY BY EXAMPLE/Testing the Application.md)
 	* [SPDY](NETTY BY EXAMPLE/SPDY.md)
 	* [通过 UDP 广播事件](NETTY BY EXAMPLE/Broadcasting events with UDP.md)
 * 高级主题
