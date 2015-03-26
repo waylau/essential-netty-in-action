@@ -1,9 +1,7 @@
 添加 WebSocket 支持
 ====
 
-WebSocket 通过“[Upgrade handshake](https://developer.mozilla.org/en-US/docs/HTTP/Protocol_upgrade_mechanism)（升级握手）”从标准的 HTTP 或HTTPS 协议转为 WebSocket。因此，使用 WebSocket 的应用程序将始终
-以 HTTP/S 开始，然后进行升级。在什么时候发生这种情况是特定于
-申请;它可以是在启动时，或当一个特定的URL已被请求。
+WebSocket 通过“[Upgrade handshake](https://developer.mozilla.org/en-US/docs/HTTP/Protocol_upgrade_mechanism)（升级握手）”从标准的 HTTP 或HTTPS 协议转为 WebSocket。因此，使用 WebSocket 的应用程序将始终以 HTTP/S 开始，然后进行升级。在什么时候发生这种情况取决于具体的应用;它可以是在启动时，或当一个特定的 URL 被请求时。
 
 在我们的应用中，当 URL 请求以“/ws”结束时，我们才升级协议为WebSocket。否则，服务器将使用基本的 HTTP/S。一旦升级连接将使用的WebSocket 传输的所有数据。
 
@@ -149,13 +147,13 @@ PingWebSocketFrame  | requests the transmission of a PongWebSocketFrame
 PongWebSocketFrame  | sent as a response to a PingWebSocketFrame
 
 
-我们的程序只需要使用下面4个框架：
+我们的程序只需要使用下面4个帧类型：
 * CloseWebSocketFrame
 * PingWebSocketFrame
 * PongWebSocketFrame
 * TextWebSocketFrame
 
-我们只需要显示处理 TextWebSocketFrame，其他的会自动由 WebSocketServerProtocolHandler 处理。
+在这里我们只需要显示处理 TextWebSocketFrame，其他的会由 WebSocketServerProtocolHandler 自动处理。
 
 下面代码展示了 ChannelInboundHandler 处理 TextWebSocketFrame，同时也将跟踪在 ChannelGroup 中所有活动的 WebSocket 连接
 
@@ -244,8 +242,7 @@ ChannelHandler　|　职责
 -------------- | ----
 HttpServerCodec |Decode bytes to HttpRequest, HttpContent, LastHttpContent.Encode HttpRequest, HttpContent, LastHttpContent to bytes.
 ChunkedWriteHandler | Write the contents of a file.
-HttpObjectAggregator | This ChannelHandler aggregates an HttpMessage and its following HttpContents into a single FullHttpRequest or FullHttpResponse (depending on whether it is being used to handle requests or responses).With this installed the next ChannelHandler in the pipeline will
-receive only full HTTP requests.
+HttpObjectAggregator | This ChannelHandler aggregates an HttpMessage and its following HttpContents into a single FullHttpRequest or FullHttpResponse (depending on whether it is being used to handle requests or responses).With this installed the next ChannelHandler in the pipeline will receive only full HTTP requests.
 HttpRequestHandler | Handle FullHttpRequests (those not sent to "/ws" URI).
 WebSocketServerProtocolHandler | As required by the WebSockets specification, handle the WebSocket Upgrade handshake, PingWebSocketFrames,PongWebSocketFrames and CloseWebSocketFrames.
 TextWebSocketFrameHandler | Handles TextWebSocketFrames and handshake completion events
