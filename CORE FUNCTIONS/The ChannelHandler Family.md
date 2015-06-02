@@ -17,7 +17,7 @@ channelRegistered  | channel 注册到一个 EventLoop.
 channelActive | channel 的活动的(连接到了它的  remote peer（远程对等方）)，现在可以接收和发送数据了
 channelInactive  | channel 没有连接到 remote peer（远程对等方）
 
-Channel 的正常的声明周期如下图，当这些状态变化出现，对应的事件将会生成，这样与 ChannelPipeline 中的 ChannelHandler 的交互就能及时响应
+Channel 的正常的生命周期如下图，当这些状态变化出现，对应的事件将会生成，这样与 ChannelPipeline 中的 ChannelHandler 的交互就能及时响应
 
 Figure 6.1 Channel State Model
 
@@ -25,7 +25,7 @@ Figure 6.1 Channel State Model
 
 ###ChannelHandler 生命周期
 
-ChannelHandler 定义的声明周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，这些将会调用。每个方法都会带 ChannelHandlerContext 参数
+ChannelHandler 定义的生命周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，这些将会调用。每个方法都会带 ChannelHandlerContext 参数
 
 Table 6.2 ChannelHandler lifecycle methods
 
