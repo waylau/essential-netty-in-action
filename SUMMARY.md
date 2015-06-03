@@ -43,6 +43,7 @@ This is the summary of my book.
 		* [总结](CORE FUNCTIONS/6.4  Summary.md)
  	* [Codec 框架](CORE FUNCTIONS/The Codec Framework.md)
 		* [什么是 Codec](CORE FUNCTIONS/What is a Codec.md)
+		* [Decoder(解码器)](CORE FUNCTIONS/Decoders.md)
  	* [提供 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
