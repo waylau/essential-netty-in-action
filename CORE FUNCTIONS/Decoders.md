@@ -146,3 +146,35 @@ Listing 7.3 MessageToMessageDecoder - Integer to String
 io.netty.handler.codec.http.HttpObjectAggregator,继承自MessageToMessageDecoder<HttpObject>*
 
 ### 在解码时处理太大的帧
+
+Netty 是异步框架需要缓冲区字节在内存中,直到你能够解码它们。因此,你不能让你的解码器缓存太多的数据来用尽可用内存。为了解决这个共同关心的问题， Netty 提供了一个 TooLongFrameException ,通常由解码器在帧太长时抛出。
+
+为了避免这个问题,你可以设置一个最大字节数阈值在你的解码器,如果超出,将导致 TooLongFrameException 抛出(并由 ChannelHandler.exceptionCaught() 捕获)。然后由译码器的用户决定如何处理它。虽然一些协议,比如 HTTP、允许这种情况下有一个特殊的响应,有些可能没有,事件唯一的选择可能就是关闭连接。
+
+如清单7.4所示 ByteToMessageDecoder 可以利用
+TooLongFrameException 通知其他 ChannelPipeline 中的  ChannelHandler。
+
+Listing 7.4 SafeByteToMessageDecoder encodes shorts into a ByteBuf
+
+	public class SafeByteToMessageDecoder extends ByteToMessageDecoder {  //1
+	    private static final int MAX_FRAME_SIZE = 1024;
+	
+	    @Override
+	    public void decode(ChannelHandlerContext ctx, ByteBuf in,
+	                       List<Object> out) throws Exception {
+	        int readable = in.readableBytes();
+	        if (readable > MAX_FRAME_SIZE) { //2
+	            in.skipBytes(readable);		//3
+	            throw new TooLongFrameException("Frame too big!");
+	        }
+	        // do something
+	    }
+	}
+
+1. 实现继承 ByteToMessageDecoder 来 字节解码为消息
+2. 检测缓存是否大于 MAX_FRAME_SIZE 
+3. 忽略所有可读的字节，并抛出 TooLongFrameException 来通知 ChannelPipeline 中的 ChannelHandler 关于这个帧 
+
+这种保护尤为重要。特别是你解码一个有可变帧大小协议。
+
+到这里我们有解释了解码器常见用例和 Netty 的抽象基类提供了用于构建它们。但解码器只是一方面。另一方面,还需要完成 Codec API,我们有编码器,用于转换消息到出站数据。这将是我们下一个话题。
