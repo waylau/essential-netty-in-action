@@ -17,7 +17,7 @@ channelRegistered  | channel 注册到一个 EventLoop.
 channelActive | channel 的活动的(连接到了它的  remote peer（远程对等方）)，现在可以接收和发送数据了
 channelInactive  | channel 没有连接到 remote peer（远程对等方）
 
-Channel 的正常的声明周期如下图，当这些状态变化出现，对应的事件将会生成，这样与 ChannelPipeline 中的 ChannelHandler 的交互就能及时响应
+Channel 的正常的生命周期如下图，当这些状态变化出现，对应的事件将会生成，这样与 ChannelPipeline 中的 ChannelHandler 的交互就能及时响应
 
 Figure 6.1 Channel State Model
 
@@ -25,7 +25,7 @@ Figure 6.1 Channel State Model
 
 ###ChannelHandler 生命周期
 
-ChannelHandler 定义的声明周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，这些将会调用。每个方法都会带 ChannelHandlerContext 参数
+ChannelHandler 定义的生命周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，这些将会调用。每个方法都会带 ChannelHandlerContext 参数
 
 Table 6.2 ChannelHandler lifecycle methods
 
@@ -64,7 +64,7 @@ channelRead  | Invoked if data are read from the Channel.
 channelWritabilityChanged |  Invoked when the writability state of the Channel changes. The user can ensure writes are not done too fast (with risk of an OutOfMemoryError) or can resume writes when the Channel becomes writable again.Channel.isWritable() can be used to detect the actual writability of the channel. The threshold for writability can be set via Channel.config().setWriteHighWaterMark() and Channel.config().setWriteLowWaterMark().
 userEventTriggered(...) | Invoked when a user calls Channel.fireUserEventTriggered(...) to pass a pojo through the ChannelPipeline. This can be used to pass user specific events through the ChannelPipeline and so allow handling those events.
 
-注意，ChannelInboundHandler 实现覆盖了 channelRead() 方法处理进来的数据用来响应释放资源。Netty 在 ByteBuf 上使用的资源池，所以当执行释放资源时可以减少内存的消耗。
+注意，ChannelInboundHandler 实现覆盖了 channelRead() 方法处理进来的数据用来响应释放资源。Netty 在 ByteBuf 上使用了资源池，所以当执行释放资源时可以减少内存的消耗。
 
 Listing 6.1 Handler to discard data
  
@@ -83,8 +83,7 @@ Listing 6.1 Handler to discard data
 
 2.ReferenceCountUtil.release() 来丢弃收到的信息
 
-Netty 用一个 WARN-level 日志条目记录未释放的资源,使其相当简单
-的找到违规实例的代码。然而,由于可以手工管理资源可能很繁琐,您可以通过使用 SimpleChannelInboundHandler 简化问题。如下：
+Netty 用一个 WARN-level 日志条目记录未释放的资源,使其能相当简单地找到代码中的违规实例。然而,由于手工管理资源会很繁琐,您可以通过使用 SimpleChannelInboundHandler 简化问题。如下：
 
 Listing 6.2 Handler to discard data
 
@@ -109,9 +108,9 @@ Listing 6.2 Handler to discard data
 
 ###ChannelOutboundHandler 
 
-ChannelOutboundHandler 提供了出站操作需要请求的方法。这些方法会被 Channel, ChannelPipeline, 和 ChannelHandlerContext。
+ChannelOutboundHandler 提供了出站操作时调用的方法。这些方法会被 Channel, ChannelPipeline, 和 ChannelHandlerContext 调用。
 
-ChannelOutboundHandler 另个一个强大的方面是它具有在请求时延迟操作或者事件的能力。比如，你可以延迟刷新操作当你写数据到 remote peer 是暂停的，那么可以在迟些时候将他们继续。
+ChannelOutboundHandler 另个一个强大的方面是它具有在请求时延迟操作或者事件的能力。比如，当你在写数据到 remote peer 的过程中被意外暂停，你可以延迟执行刷新操作，然后在迟些时候继续。
 
 下面显示了 ChannelOutboundHandler 的方法（继承自 ChannelHandler 未列出来）
 
@@ -129,11 +128,11 @@ read  | Invoked on request to read more data from the Channel
 flush  | Invoked on request to flush queued data to the remote peer through the Channel
 write  | Invoked on request to write data through the Channel to the remote peer
 
-几乎所有的方法都将 ChannelPromise 作为参数,必须被通知一次请求应该停止通过 ChannelPipeline 转发。
+几乎所有的方法都将 ChannelPromise 作为参数,一旦请求结束要通过 ChannelPipeline 转发的时候，必须通知此参数。
 
 *ChannelPromise vs. ChannelFuture*
 
-*ChannelPromise 是 特殊的 ChannelFuture，允许你的 ChannelPromise 及其 操作 成功或失败。所以任何时候调用例如 Channel.write(...) 一个新的  ChannelPromise 将会创建并且传递通过 ChannelPipeline。写本身将会返回 ChannelFuture， 这样只允许你得到一次操作完成的通知。Netty 本身使用 ChannelPromise 作为返回的 ChannelFuture 的通知，事实上在大多数时候就是 ChannelPromise 自身（ChannelPromise 扩展了 ChannelFuture）*
+*ChannelPromise 是 特殊的 ChannelFuture，允许你的 ChannelPromise 及其 操作 成功或失败。所以任何时候调用例如 Channel.write(...) 一个新的  ChannelPromise将会创建并且通过 ChannelPipeline传递。这次写操作本身将会返回 ChannelFuture， 这样只允许你得到一次操作完成的通知。Netty 本身使用 ChannelPromise 作为返回的 ChannelFuture 的通知，事实上在大多数时候就是 ChannelPromise 自身（ChannelPromise 扩展了 ChannelFuture）*
 
 如前所述,ChannelOutboundHandlerAdapter 提供了一个实现了 ChannelOutboundHandler 所有基本方法的实现的框架。
 这些简单事件转发到下一个 ChannelOutboundHandler 管道通过调用
