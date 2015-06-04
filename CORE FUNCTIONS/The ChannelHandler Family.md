@@ -83,8 +83,7 @@ Listing 6.1 Handler to discard data
 
 2.ReferenceCountUtil.release() 来丢弃收到的信息
 
-Netty 用一个 WARN-level 日志条目记录未释放的资源,使其能相当简单
-地找到代码中的违规实例。然而,由于手工管理资源会很繁琐,您可以通过使用 SimpleChannelInboundHandler 简化问题。如下：
+Netty 用一个 WARN-level 日志条目记录未释放的资源,使其能相当简单地找到代码中的违规实例。然而,由于手工管理资源会很繁琐,您可以通过使用 SimpleChannelInboundHandler 简化问题。如下：
 
 Listing 6.2 Handler to discard data
 
@@ -109,7 +108,7 @@ Listing 6.2 Handler to discard data
 
 ###ChannelOutboundHandler 
 
-ChannelOutboundHandler 提供了出站操作时调用的方法。这些方法会被 Channel, ChannelPipeline, 和 ChannelHandlerContext调用。
+ChannelOutboundHandler 提供了出站操作时调用的方法。这些方法会被 Channel, ChannelPipeline, 和 ChannelHandlerContext 调用。
 
 ChannelOutboundHandler 另个一个强大的方面是它具有在请求时延迟操作或者事件的能力。比如，当你在写数据到 remote peer 的过程中被意外暂停，你可以延迟执行刷新操作，然后在迟些时候继续。
 
@@ -133,4 +132,112 @@ write  | Invoked on request to write data through the Channel to the remote peer
 
 *ChannelPromise vs. ChannelFuture*
 
-*ChannelPromise 是 特殊的 ChannelFuture，允许你的ChannelPromise 及其 操作 成功或失败。所以任何时候调用例如 Channel.write(...) 一个新的  ChannelPromise 将会创建并且通过 ChannelPipeline传递。这次写操作本身将会返回 ChannelFuture， 这样只允许你得到一次操作完成的通知。Netty 本身使用 ChannelPromise 作为返回的 ChannelFuture 的通知，事实上在大多数时候就是 ChannelPromise自身（ChannelPromise 扩展了 ChannelFuture）*
+*ChannelPromise 是 特殊的 ChannelFuture，允许你的 ChannelPromise 及其 操作 成功或失败。所以任何时候调用例如 Channel.write(...) 一个新的  ChannelPromise将会创建并且通过 ChannelPipeline传递。这次写操作本身将会返回 ChannelFuture， 这样只允许你得到一次操作完成的通知。Netty 本身使用 ChannelPromise 作为返回的 ChannelFuture 的通知，事实上在大多数时候就是 ChannelPromise 自身（ChannelPromise 扩展了 ChannelFuture）*
+
+如前所述,ChannelOutboundHandlerAdapter 提供了一个实现了 ChannelOutboundHandler 所有基本方法的实现的框架。
+这些简单事件转发到下一个 ChannelOutboundHandler 管道通过调用
+ChannelHandlerContext 相关的等效方法。你可以根据需要自己实现想要的方法。
+
+### 资源管理
+
+当你通过 ChannelInboundHandler.channelRead(...) 或者
+ChannelOutboundHandler.write(...) 来处理数据，重要的是在处理资源时要确保资源不要泄漏。
+
+Netty 使用引用计数器来处理池化的 ByteBuf。所以当 ByteBuf 完全处理后，要确保引用计数器被调整。
+
+引用计数的权衡之一是用户时必须小心使用消息。当 JVM 仍在 GC(不知道有这样的消息引用计数)这个消息，以至于可能是之前获得的这个消息不会被放回池中。因此很可能,如果你不小心释放这些消息，很可能会耗尽资源。
+
+为了让用户更加简单的找到遗漏的释放，Netty 包含了一个 ResourceLeakDetector ，将会从已分配的缓冲区 1% 作为样品来检查是否存在在应用程序泄漏。因为 1% 的抽样,开销很小。
+
+对于检测泄漏,您将看到类似于下面的日志消息。
+
+	LEAK: ByteBuf.release() was not called before it’s garbage-collected. Enable advanced leak reporting to find out where the leak occurred. To enable advanced
+	leak reporting, specify the JVM option ’-Dio.netty.leakDetectionLevel=advanced’ or call ResourceLeakDetector.setLevel()
+
+	Relaunch your application with the JVM option mentioned above, then you’ll see the recent locations of your application where the leaked buffer was accessed. The following output shows a leak from our unit test (XmlFrameDecoderTest.testDecodeWithXml()):
+		
+	Running io.netty.handler.codec.xml.XmlFrameDecoderTest
+		
+	15:03:36.886 [main] ERROR io.netty.util.ResourceLeakDetector - LEAK:
+	ByteBuf.release() was not called before it’s garbage-collected.
+		
+	Recent access records: 1
+	
+	#1:
+		
+	io.netty.buffer.AdvancedLeakAwareByteBuf.toString(AdvancedLeakAwareByteBuf.java:697)
+	
+	io.netty.handler.codec.xml.XmlFrameDecoderTest.testDecodeWithXml(XmlFrameDecoderTest.java:157)
+		io.netty.handler.codec.xml.XmlFrameDecoderTest.testDecodeWithTwoMessages(XmlFrameDecoderTest.java:133)
+
+
+#### 泄漏检测等级
+
+Netty 现在定义了四种泄漏检测等级，可以按需开启，见下表
+
+
+Table 6.5 Leak detection levels
+
+Level Description | DISABLED
+------------------|---------
+Disables | Leak detection completely. While this even eliminates the 1 % overhead you should only do this after extensive testing.
+SIMPLE | Tells if a leak was found or not. Again uses the sampling rate of 1%, the default level and a good fit for most cases.
+ADVANCED | Tells if a leak was found and where the message was accessed, using the sampling rate of 1%.
+PARANOID | Same as level ADVANCED with the main difference that every access is sampled. This it has a massive impact on performance. Use this only in the debugging phase.
+
+修改检测等级，只需修改 io.netty.leakDetectionLevel 系统属性，举例
+
+	# java -Dio.netty.leakDetectionLevel=paranoid
+
+这样，我们就能在 ChannelInboundHandler.channelRead(...) 和  ChannelOutboundHandler.write(...) 避免泄漏。
+
+当你处理 channelRead(...) 操作，并在消费消息(不是通过 ChannelHandlerContext.fireChannelRead(...) 来传递它到下个 ChannelInboundHandler)  时，要释放它，如下：
+
+Listing 6.3 Handler that consume inbound data
+
+	@ChannelHandler.Sharable
+	public class DiscardInboundHandler extends ChannelInboundHandlerAdapter {  //1
+	
+	    @Override
+	    public void channelRead(ChannelHandlerContext ctx,
+	                                     Object msg) {
+	        ReferenceCountUtil.release(msg); //2
+	    }
+	
+	}
+
+1. 继承 ChannelInboundHandlerAdapter
+2. 使用 ReferenceCountUtil.release(...) 来释放资源
+
+所以记得，每次处理消息时，都要释放它。
+
+*SimpleChannelInboundHandler -消费入站消息更容易*
+
+*使用入站数据和释放它是一项常见的任务，Netty 为你提供了一个特殊的称为 SimpleChannelInboundHandler 的 ChannelInboundHandler 的实现。该实现将自动释放一个消息，一旦这个消息被用户通过channelRead0() 方法消费。*
+
+当你在处理写操作，并丢弃消息时，你需要释放它。现在让我们看下实际是如何操作的。
+
+Listing 6.4 Handler to discard outbound data
+ 
+@ChannelHandler.Sharable
+public class DiscardOutboundHandler
+        extends ChannelOutboundHandlerAdapter { //1
+
+    @Override
+    public void write(ChannelHandlerContext ctx,
+                                     Object msg, ChannelPromise promise) {
+        ReferenceCountUtil.release(msg);  //2
+        promise.setSuccess();	//3
+
+    }
+
+}
+
+
+1. 继承 ChannelOutboundHandlerAdapter
+2. 使用 ReferenceCountUtil.release(...) 来释放资源
+3. 通知 ChannelPromise 数据已经被处理
+
+重要的是，释放资源并通知 ChannelPromise。如果，ChannelPromise 没有被通知到，这可能会引发 ChannelFutureListener 不会被处理的消息通知的状况。
+
+所以，总结下：如果消息是被 消耗/丢弃 并不会被传入下个 ChannelPipeline 的 ChannelOutboundHandler ，调用 ReferenceCountUtil.release(message) 。一旦消息经过实际的传输，在消息被写或者 Channel 关闭时，它将会自动释放。
