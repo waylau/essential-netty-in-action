@@ -1,14 +1,14 @@
 Encoder(编码器)
 ====
 
-回顾之前的定义，encoder 是转换出站数据从一种格式到另外一种格式，因此它实现了 ChanneOutboundHandler， Netty 提供以下与 decoder 相反的方法：
+回顾之前的定义，encoder 是用来把出站数据从一种格式转换到另外一种格式，因此它实现了 ChanneOutboundHandler 。正如你所期望的一样，类似于 decoder，Netty 也提供了一组类来帮助你写 encoder，当然这些类提供的是与 decoder 相反的方法，如下所示：
 
 * 编码从消息到字节
 * 编码从消息到消息
 
 ### MessageToByteEncoder
 
-MessageToByteEncoder 是跟 ByteToMessageDecoder. 功能相反的。
+之前我们学习了如何使用 ByteToMessageDecoder 来将字节转换成消息，现在我们使用 MessageToByteEncoder 实现相反的效果。
 
 Table 7.3 MessageToByteEncoder API
 
@@ -40,11 +40,11 @@ Listing 7.5 ShortToByteEncoder encodes shorts into a ByteBuf
 1. 实现继承自 MessageToByteEncoder
 2. 写 Short 到 ByteBuf
 
-Netty 提供很多 MessageToByteEncoder 类来服务你的基础实现。其中 WebSocket08FrameEncoder 就是个不错的范例。可以在  io.netty.handler.codec.http.websocketx 包找到。
+Netty 提供很多 MessageToByteEncoder 类来帮助你的实现自己的 encoder 。其中 WebSocket08FrameEncoder 就是个不错的范例。可以在  io.netty.handler.codec.http.websocketx 包找到。
 
 ### MessageToMessageEncoder  
 
-我们已经知道了如何解码入站数据从一个消息格式到另一个格式。现在我们需要一种方法来编码为出站数据从一个消息到另一个。MessageToMessageEncoder 提供此功能,见表7.4，同样的只有一个方法,没有需要产生“最后的消息”。
+我们已经知道了如何将入站数据从一个消息格式解码成另一个格式。现在我们需要一种方法来将出站数据从一种消息编码成另一种消息。MessageToMessageEncoder 提供此功能,见表7.4，同样的只有一个方法,因为不需要产生“最后的消息”。
 
 Table 7.4 MessageToMessageEncoder API
 
