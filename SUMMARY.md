@@ -46,6 +46,7 @@ This is the summary of my book.
 		* [Decoder(解码器)](CORE FUNCTIONS/Decoders.md)
 		* [Encoder(编码器)](CORE FUNCTIONS/Encoders.md)
 		* [抽象 Codec(编解码器)类](CORE FUNCTIONS/Abstract Codec classes.md)
+		* [总结](CORE FUNCTIONS/7.5  Summary.md)
  	* [提供 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
