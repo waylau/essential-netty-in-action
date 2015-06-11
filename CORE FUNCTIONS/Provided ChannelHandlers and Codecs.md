@@ -3,7 +3,7 @@
 
 本章介绍
 
-* 使用 SSL/TLS 创建安全的 Netty 程序
+* 使用 SSL/TLS 加密 Netty 程序
 * 构建 Netty HTTP/HTTPS 程序
 * 处理空闲连接和超时
 * 解码分隔符和基于长度的协议

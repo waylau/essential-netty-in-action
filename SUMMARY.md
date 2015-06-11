@@ -48,6 +48,8 @@ This is the summary of my book.
 		* [抽象 Codec(编解码器)类](CORE FUNCTIONS/Abstract Codec classes.md)
 		* [总结](CORE FUNCTIONS/7.5  Summary.md)
  	* [提供了的 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
+		* [使用 SSL/TLS 加密 Netty 程序](CORE FUNCTIONS/Securing Netty applications with SSLTLS.md)
+		* [构建 Netty HTTP/HTTPS 应用](CORE FUNCTIONS/Building Netty HTTPHTTPS applications.md)
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
