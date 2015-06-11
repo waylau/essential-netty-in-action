@@ -35,8 +35,7 @@ Table 8.2 HTTP decoder and encoder
 
 名称 | 描述
 -----|----
-HttpRequestEncoder |Encodes HttpRequest , HttpContent and
-LastHttpContent messages to bytes.
+HttpRequestEncoder |Encodes HttpRequest , HttpContent and LastHttpContent messages to bytes.
 HttpResponseEncoder | Encodes HttpResponse, HttpContent and LastHttpContent messages to bytes.
 HttpRequestDecoder | Decodes bytes into HttpRequest, HttpContent and LastHttpContent messages.
 HttpResponseDecoder | Decodes bytes into HttpResponse, HttpContent and LastHttpContent messages.
