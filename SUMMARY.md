@@ -50,6 +50,8 @@ This is the summary of my book.
  	* [提供了的 ChannelHandler 和 Codec](CORE FUNCTIONS/Provided ChannelHandlers and Codecs.md)
 		* [使用 SSL/TLS 加密 Netty 程序](CORE FUNCTIONS/Securing Netty applications with SSLTLS.md)
 		* [构建 Netty HTTP/HTTPS 应用](CORE FUNCTIONS/Building Netty HTTPHTTPS applications.md)
+		* [空闲连接以及超时](CORE FUNCTIONS/Idle connections and Timeouts.md)
+		* [解码分隔符和基于长度的协议](CORE FUNCTIONS/Decoding delimited and length-based protocols.md)
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
