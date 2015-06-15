@@ -1,11 +1,11 @@
 添加 WebSocket 支持
 ====
 
-WebSocket 通过“[Upgrade handshake](https://developer.mozilla.org/en-US/docs/HTTP/Protocol_upgrade_mechanism)（升级握手）”从标准的 HTTP 或HTTPS 协议转为 WebSocket。因此，使用 WebSocket 的应用程序将始终以 HTTP/S 开始，然后进行升级。在什么时候发生这种情况取决于具体的应用;它可以是在启动时，或当一个特定的 URL 被请求时。
+WebSocket 使用一种被称作“[Upgrade handshake](https://developer.mozilla.org/en-US/docs/HTTP/Protocol_upgrade_mechanism)（升级握手）”的机制将标准的 HTTP 或HTTPS 协议转为 WebSocket。因此，使用 WebSocket 的应用程序将始终以 HTTP/S 开始，然后进行升级。这种升级发生在什么时候取决于具体的应用;可以在应用启动的时候，或者当一个特定的 URL 被请求的时候。
 
-在我们的应用中，当 URL 请求以“/ws”结束时，我们才升级协议为WebSocket。否则，服务器将使用基本的 HTTP/S。一旦升级连接将使用的WebSocket 传输的所有数据。
+在我们的应用中，仅当 URL 请求以“/ws”结束时，我们才升级协议为WebSocket。否则，服务器将使用基本的 HTTP/S。一旦连接升级，之后的数据传输都将使用 WebSocket 。
 
-下面看下服务器的逻辑
+下面看下服务器的逻辑图
 
 Figure 11.2 Server logic
 
@@ -25,10 +25,10 @@ Figure 11.2 Server logic
 
 ###处理 HTTP 请求
 
-本节实现处理 HTTP 请求，生成页面用来访问“聊天室”，并且显示发送的消息。
+本节我们将实现此应用中用于处理 HTTP 请求的组件，这个组件托管着可供客户端访问的聊天室页面，并且显示客户端发送的消息。
 
-下面代码 HttpRequestHandler,是一个用来处理 FullHttpRequest 消息的 ChannelInboundHandler 的实现。注意，忽略 "/ws"
-URI 的请求。
+下面就是这个 HttpRequestHandler 的代码,它是一个用来处理 FullHttpRequest 消息的 ChannelInboundHandler 的实现类。注意看它是怎么实现忽略符合 "/ws" 格式的
+URI 请求的。
 
 Listing 11.1 HTTPRequestHandler
 
@@ -100,7 +100,7 @@ Listing 11.1 HTTPRequestHandler
 
 1.扩展 SimpleChannelInboundHandler 用于处理 FullHttpRequest信息
 
-2.如果请求是 WebSocket 升级，递增引用计数器（保留）并且将它传递给在  ChannelPipeline 中的下个 ChannelInboundHandler 
+2.如果请求是一次升级了的 WebSocket 请求，则递增引用计数器（retain）并且将它传递给在  ChannelPipeline 中的下个 ChannelInboundHandler 
 
 3.处理符合 HTTP 1.1的 "100 Continue" 请求
  
@@ -110,18 +110,18 @@ Listing 11.1 HTTPRequestHandler
 
 6.写 HttpResponse 到客户端
 
-7.写 index.html 到客户端，判断 SslHandler 是否在 ChannelPipeline 来决定是使用 DefaultFileRegion 还是 ChunkedNioFile
+7.写 index.html 到客户端，根据 ChannelPipeline 中是否有 SslHandler 来决定使用 DefaultFileRegion 还是 ChunkedNioFile
 
 8.写并刷新 LastHttpContent 到客户端，标记响应完成
 
-9.如果 keepalive 没有要求，当写完成时，关闭 Channel
+9.如果 请求头中不包含 keepalive，当写完成时，关闭 Channel
 
 HttpRequestHandler 做了下面几件事，
 
-* 如果该 HTTP 请求被发送到URI “/ws”，调用 FullHttpRequest 上的 retain()，并通过调用 fireChannelRead(msg) 转发到下一个 ChannelInboundHandler。retain() 是必要的，因为 channelRead() 完成后，它会调用 FullHttpRequest 上的 release() 来释放其资源。 （请参考我们先前的 SimpleChannelInboundHandler 在第6章中讨论）
-* 如果客户端发送的 HTTP 1.1 头是“Expect: 100-continue” ，将发送“100 Continue”的响应。
-* 在 头被设置后，写一个 HttpResponse 返回给客户端。注意，这是不是 FullHttpResponse，唯一的反应的第一部分。此外，我们不使用 writeAndFlush() 在这里 - 这个是在最后完成。
-* 如果没有加密也不压缩，要达到最大的效率可以是通过存储  index.html 的内容在一个 DefaultFileRegion 实现。这将利用零拷贝来执行传输。出于这个原因，我们检查，看看是否有一个 SslHandler 在 ChannelPipeline 中。另外，我们使用 ChunkedNioFile。
+* 如果该 HTTP 请求被发送到URI “/ws”，则调用 FullHttpRequest 上的 retain()，并通过调用 fireChannelRead(msg) 转发到下一个 ChannelInboundHandler。retain() 的调用是必要的，因为 channelRead() 完成后，它会调用 FullHttpRequest 上的 release() 来释放其资源。 （请参考我们先前在第6章中关于 SimpleChannelInboundHandler 的讨论）
+* 如果客户端发送的 HTTP 1.1 头是“Expect: 100-continue” ，则发送“100 Continue”的响应。
+* 在 头被设置后，写一个 HttpResponse 返回给客户端。注意，这不是 FullHttpResponse，这只是响应的第一部分。另外，这里我们也不使用 writeAndFlush()， 这个是在留在最后完成。
+* 如果传输过程既没有要求加密也没有要求压缩，那么把 index.html 的内容存储在一个 DefaultFileRegion 里就可以达到最好的效率。这将利用零拷贝来执行传输。出于这个原因，我们要检查 ChannelPipeline 中是否有一个 SslHandler。如果是的话，我们就使用 ChunkedNioFile。
 * 写 LastHttpContent 来标记响应的结束，并终止它
 * 如果不要求 keepalive ，添加 ChannelFutureListener 到 ChannelFuture 对象的最后写入，并关闭连接。注意，这里我们调用 writeAndFlush() 来刷新所有以前写的信息。
 
@@ -133,7 +133,7 @@ HttpRequestHandler 做了下面几件事，
 
 ###处理 WebSocket frame
 
-WebSocket "Request for Comments" (RFC) 定义了六中不同的 frame; Netty 给他们每个都提供了一个 POJO 实现 ，见下表：
+WebSocket "Request for Comments" (RFC) 定义了六种不同的 frame; Netty 给他们每个都提供了一个 POJO 实现 ，见下表：
 
 Table 11.1 WebSocketFrame types
 
@@ -153,7 +153,7 @@ PongWebSocketFrame  | sent as a response to a PingWebSocketFrame
 * PongWebSocketFrame
 * TextWebSocketFrame
 
-在这里我们只需要显示处理 TextWebSocketFrame，其他的会由 WebSocketServerProtocolHandler 自动处理。
+在这里我们只需要处理 TextWebSocketFrame，其他的会由 WebSocketServerProtocolHandler 自动处理。
 
 下面代码展示了 ChannelInboundHandler 处理 TextWebSocketFrame，同时也将跟踪在 ChannelGroup 中所有活动的 WebSocket 连接
 
@@ -188,26 +188,26 @@ Listing 11.2 Handles Text frames
 	
 1.扩展 SimpleChannelInboundHandler 用于处理 TextWebSocketFrame 信息 
 
-2.覆盖userEventTriggered() 方法来处理自定义事件 
+2.覆写userEventTriggered() 方法来处理自定义事件 
 
-3.如果接收的事件表明握手成功,从 ChannelPipeline 删除HttpRequestHandler ，这样就不会有进一步的 HTTP 消息被接收
+3.如果接收的事件表明握手成功,就从 ChannelPipeline 中删除HttpRequestHandler ，因为接下来不会接受 HTTP 消息了
 
-4.写一条消息给所有的已连接 WebSocket 客户端，通知一个新的 Channel 连接上来了
+4.写一条消息给所有的已连接 WebSocket 客户端，通知它们建立了一个新的 Channel 连接
    
-5.添加新的 WebSocket Channel 到 ChannelGroup 中，这样它就能收到所有的信息
+5.添加新连接的 WebSocket Channel 到 ChannelGroup 中，这样它就能收到所有的信息
 
-6.保留收到的消息，并通过  writeAndFlush() 给所有连接的客户端。
+6.保留收到的消息，并通过  writeAndFlush() 传递给所有连接的客户端。
 	
 上面显示了 TextWebSocketFrameHandler 仅作了几件事：
 
 * 当WebSocket 与新客户端已成功握手完成，通过写入信息到 ChannelGroup 中的 Channel  来通知所有连接的客户端，然后添加新 Channel 到 ChannelGroup
-* 如果接收到 TextWebSocketFrame，调用 retain() ，并将其写、刷新到 ChannelGroup，使所有连接的 WebSocket Channel 都能接收到它。和以前一样，retain() 是必需的，因为当 channelRead0（）返回时，TextWebSocketFrame 的引用计数将递减。由于所有操作都是异步的，writeAndFlush() 可能会在以后完成，我们不希望它来访问无效的引用。
+* 如果接收到 TextWebSocketFrame，调用 retain() ，并将其写、刷新到 ChannelGroup，使所有连接的 WebSocket Channel 都能接收到它。和以前一样，retain() 是必需的，因为当 channelRead0（）返回时，TextWebSocketFrame 的引用计数将递减。由于所有操作都是异步的，writeAndFlush() 可能会在以后完成，我们不希望它访问无效的引用。
 
-由于 Netty 处理了其余大部分功能，唯一剩下的我们现在要做的是初始化 ChannelPipeline 给每一个创建的新的 Channel 。做到这一点，我们需要一个ChannelInitializer
+由于 Netty 在其内部处理了其余大部分功能，唯一剩下的需要我们去做的就是为每一个新创建的 Channel 初始化 ChannelPipeline 。要完成这个，我们需要一个ChannelInitializer
 
 ###初始化 ChannelPipeline
 
-接下来，我们需要安装我们两个 ChannelHandler 到 ChannelPipeline。为此，我们需要 ChannelInitializer 和实现 initChannel()。看下面 ChatServerInitializer  的代码实现
+接下来，我们需要安装我们上面实现的两个 ChannelHandler 到 ChannelPipeline。为此，我们需要继承 ChannelInitializer 并且实现 initChannel()。看下面 ChatServerInitializer  的代码实现
 
 Listing 11.3 Init the ChannelPipeline
 
@@ -234,7 +234,7 @@ Listing 11.3 Init the ChannelPipeline
 
 2.添加 ChannelHandler　到 ChannelPipeline
 
-initChannel() 方法设置 ChannelPipeline 中所有新注册的 Channel,安装所有需要的　 ChannelHandler。总结如下：
+initChannel() 方法用于设置所有新注册的 Channel 的ChannelPipeline,安装所有需要的 ChannelHandler。总结如下：
 
 Table 11.2 ChannelHandlers for the WebSockets Chat server
 
@@ -247,7 +247,7 @@ HttpRequestHandler | Handle FullHttpRequests (those not sent to "/ws" URI).
 WebSocketServerProtocolHandler | As required by the WebSockets specification, handle the WebSocket Upgrade handshake, PingWebSocketFrames,PongWebSocketFrames and CloseWebSocketFrames.
 TextWebSocketFrameHandler | Handles TextWebSocketFrames and handshake completion events
 
-该 WebSocketServerProtocolHandler 处理所有规定的 WebSocket 帧类型和升级握手本身。如果握手成功所需 ChannelHandler 被添加到管道和那些不再需要则被去除。管道升级之前的状态如下图。这代表了 ChannelPipeline 刚刚经过 ChatServerInitializer 初始化。
+该 WebSocketServerProtocolHandler 处理所有规定的 WebSocket 帧类型和升级握手本身。如果握手成功所需的 ChannelHandler 被添加到管道，而那些不再需要的则被去除。管道升级之前的状态如下图。这代表了 ChannelPipeline 刚刚经过 ChatServerInitializer 初始化。
 
 Figure 11.3 ChannelPipeline before WebSockets Upgrade
 
