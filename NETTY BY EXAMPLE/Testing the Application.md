@@ -9,7 +9,7 @@
 
 	mvn -PChatServer -Dport=1111 clean package exec:exec
 
-下面是控制台的输出
+下面是控制台的主要输出(删除了部分行)
 
 Listing 11.5 Compile and start the ChatServer
 	
@@ -26,17 +26,17 @@ Listing 11.5 Compile and start the ChatServer
 	[INFO] --- exec-maven-plugin:1.2.1:exec (default-cli) @ chat-server ---
 	Starting ChatServer on port 9999
 
-可以在浏览器中通过 http://localhost:9999 地址访问程序：
+可以在浏览器中通过 http://localhost:9999 地址访问程序。图11.5展示了此程序在Chrome浏览器下的用户界面。
 
 Figure 11.5 WebSockets ChatServer demonstration
 
 ![](../images/Figure 11.5 WebSockets ChatServer demonstration.jpg)
 
-图中显示了两个客户端可以交互了。
-
+图中显示了两个已经连接了的客户端。第一个客户端是通过上面的图形界面连接的，第二个是通过Chrome浏览器底部的命令行连接的。
+你可以注意到，这两个客户端都在发送消息，每条消息都会显示在两个客户端上。
 ###如何加密？
 
-通过添加 SslHandler 到 ChannelPipeline 来配置加密。如下：
+在实际场景中，加密是必不可少的。在Netty中实现加密并不麻烦，你只需要向 ChannelPipeline 中添加 SslHandler ，然后配置一下即可。如下：
 
 Listing 11.6 Add encryption to the ChannelPipeline
 
@@ -59,7 +59,7 @@ Listing 11.6 Add encryption to the ChannelPipeline
 	
 1.扩展 ChatServerInitializer 来实现加密
 
-2.SslHandler 到 ChannelPipeline
+2.向 ChannelPipeline 中添加SslHandler
 
 最后修改 ChatServer，使用 SecureChatServerInitializer 并传入 SSLContext
 
@@ -101,9 +101,9 @@ Listing 11.7 Add encryption to the ChatServer
 
 1.扩展 ChatServer
 
-2.返回先前创建的 SecureChatServerInitializer 来启动加密
+2.返回先前创建的 SecureChatServerInitializer 来启用加密
 
-这样，就在所有的通信中使用了 [SSL/TLS](http://tools.ietf.org/html/rfc5246) 加密。下面是启动程序：
+这样，就在所有的通信中使用了 [SSL/TLS](http://tools.ietf.org/html/rfc5246) 加密。和前面一样，你可以使用Maven拉取应用需要的所有依赖，并启动它，如下所示。
 
 Listing 11.8 Start the SecureChatServer
 	
@@ -121,5 +121,5 @@ Listing 11.8 Start the SecureChatServer
 	[INFO] --- exec-maven-plugin:1.2.1:exec (default-cli) @ chat-server ---
 	Starting SecureChatServer on port 9999
 	
-可以通过 HTTPS 地址: https://localhost:9999   来访问SecureChatServer 
+现在你可以通过 HTTPS 地址: https://localhost:9999   来访问SecureChatServer 了。
 
