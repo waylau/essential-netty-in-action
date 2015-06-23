@@ -49,3 +49,69 @@ Listing 8.8 Handling line-delimited frames
 2. 添加 FrameHandler 用于接收帧
 3. 每次调用都需要传递一个单帧的内容
 
+使用 DelimiterBasedFrameDecoder 可以方便处理特定分隔符作为数据结构体的这类情况。如下：
+
+* 传入的数据流是一系列的帧，每个由换行（“\n”）分隔
+* 每帧包括一系列项目，每个由单个空格字符分隔
+* 一帧的内容代表一个“命令”：一个名字后跟一些变量参数
+
+清单8.9中显示了的实现的方式。定义以下类：
+
+* 类 Cmd - 存储帧的内容，其中一个 ByteBuf 用于存名字，另外一个存参数
+* 类 CmdDecoder - 从重写方法 decode() 中检索一行，并从其内容中构建一个 Cmd 的实例
+* 类 CmdHandler - 从 CmdDecoder 接收解码 Cmd 对象和对它的一些处理。
+
+所以关键的解码器是扩展了 LineBasedFrameDecoder
+
+Listing 8.9 Decoder for the command and the handler
+
+	public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
+	
+	    @Override
+	    protected void initChannel(Channel ch) throws Exception {
+	        ChannelPipeline pipeline = ch.pipeline();
+	        pipeline.addLast(new CmdDecoder(65 * 1024));//1
+	        pipeline.addLast(new CmdHandler()); //2
+	    }
+	
+	    public static final class Cmd { //3
+	        private final ByteBuf name;
+	        private final ByteBuf args;
+	
+	        public Cmd(ByteBuf name, ByteBuf args) {
+	            this.name = name;
+	            this.args = args;
+	        }
+	
+	        public ByteBuf name() {
+	            return name;
+	        }
+	
+	        public ByteBuf args() {
+	            return args;
+	        }
+	    }
+	
+	    public static final class CmdDecoder extends LineBasedFrameDecoder {
+	        public CmdDecoder(int maxLength) {
+	            super(maxLength);
+	        }
+	
+	        @Override
+	        protected Object decode(ChannelHandlerContext ctx, ByteBuf buffer) throws Exception {
+	            ByteBuf frame =  (ByteBuf) super.decode(ctx, buffer); //4
+	            if (frame == null) {
+	                return null; //5
+	            }
+	            int index = frame.indexOf(frame.readerIndex(), frame.writerIndex(), (byte) ' ');  //6
+	            return new Cmd(frame.slice(frame.readerIndex(), index), frame.slice(index +1, frame.writerIndex())); //7
+	        }
+	    }
+	
+	    public static final class CmdHandler extends SimpleChannelInboundHandler<Cmd> {
+	        @Override
+	        public void channelRead0(ChannelHandlerContext ctx, Cmd msg) throws Exception {
+	            // Do something with the command  //8
+	        }
+	    }
+	}
