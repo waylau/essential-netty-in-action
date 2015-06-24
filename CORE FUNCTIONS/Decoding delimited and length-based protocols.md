@@ -115,3 +115,12 @@ Listing 8.9 Decoder for the command and the handler
 	        }
 	    }
 	}
+
+1. 添加一个 CmdDecoder 到管道；将提取 Cmd 对象和转发到在管道中的下一个处理器
+2. 添加 CmdHandler 将接收和处理 Cmd 对象
+3. 命令也是 POJO
+4. super.decode() 通过结束分隔从 ByteBuf 提取帧
+5. frame 是空时，则返回 null
+6. 找到第一个空字符的索引。首先是它的命令名；接下来是参数的顺序
+7. 从帧先于索引以及它之后的片段中实例化一个新的 Cmd 对象
+8. 处理通过管道的 Cmd 对象
