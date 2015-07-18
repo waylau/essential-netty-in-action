@@ -124,3 +124,59 @@ Listing 8.9 Decoder for the command and the handler
 6. 找到第一个空字符的索引。首先是它的命令名；接下来是参数的顺序
 7. 从帧先于索引以及它之后的片段中实例化一个新的 Cmd 对象
 8. 处理通过管道的 Cmd 对象
+
+### 基于长度的协议
+
+基于长度的协议协议在帧头文件里定义了一个帧编码的长度,而不是结束位置用一个特殊的分隔符来标记。表8.6列出了 Netty 提供的两个解码器，用于处理这种类型的协议。
+
+Table 8.6 Decoders for length-based protocols
+
+名称 | 描述
+-----|----
+FixedLengthFrameDecoder | 提取固定长度
+LengthFieldBasedFrameDecoder | 读取头部长度并提取帧的长度
+
+如下图所示，FixedLengthFrameDecoder 的操作是提取固定长度每帧8字节
+
+![](../images/Figure 8.6 Decoding a frame length of 8 bytes.jpg)
+
+1. 字节流 stream
+2. 4个帧，每个帧8个字节
+
+大部分时候帧的大小被编码在头部，这种情况可以使用LengthFieldBasedFrameDecoder，它会读取头部长度并提取帧的长度。下图显示了它是如何工作的：
+
+![](../images/Figure 8.7 Message that has frame size encoded in the header.jpg)
+
+1. 长度 "0x000C" (12) 被编码在帧的前两个字节
+2. 后面的12个字节就是内容
+3. 提取没有头文件的帧内容
+
+Figure 8.7 Message that has frame size encoded in the header
+
+LengthFieldBasedFrameDecoder 提供了几个构造函数覆盖各种各样的头长字段配置情况。清单8.10显示了使用三个参数的构造函数是maxFrameLength,lengthFieldOffset lengthFieldLength。在这
+情况下,帧的长度被编码在帧的前8个字节。
+
+Listing 8.10 Decoder for the command and the handler
+
+	public class LineBasedHandlerInitializer extends ChannelInitializer<Channel> {
+	
+	    @Override
+	    protected void initChannel(Channel ch) throws Exception {
+	        ChannelPipeline pipeline = ch.pipeline();
+	        pipeline.addLast(new LineBasedFrameDecoder(65 * 1024));  //1
+	        pipeline.addLast(new FrameHandler()); //2
+	    }
+	
+	    public static final class FrameHandler extends SimpleChannelInboundHandler<ByteBuf> {
+	        @Override
+	        public void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+	            // Do something with the frame  //3
+	        }
+	    }
+	}
+
+1. Add a LengthFieldBasedFrameDecoder to extract frames based on the encoded length in the first 8
+bytes of the frame.
+2. Add a FrameHandler to handle each frame.
+3. Do something with the frame data.
+
