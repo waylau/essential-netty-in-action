@@ -175,8 +175,9 @@ Listing 8.10 Decoder for the command and the handler
 	    }
 	}
 
-1. Add a LengthFieldBasedFrameDecoder to extract frames based on the encoded length in the first 8
-bytes of the frame.
-2. Add a FrameHandler to handle each frame.
-3. Do something with the frame data.
+1. 添加一个 LengthFieldBasedFrameDecoder ,用于提取基于帧编码长度8个字节的帧。
+2. 添加一个 FrameHandler 用来处理每帧
+3. 处理帧数据
+
+总而言之,本部分探讨了 Netty 提供的编解码器支持协议,包括定义特定的分隔符的字节流的结构或协议帧的长度。这些编解码器非常有用。
 
