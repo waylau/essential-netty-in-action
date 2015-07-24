@@ -57,6 +57,7 @@ This is the summary of my book.
 		* [总结](CORE FUNCTIONS/8.7  Summary.md)
 	* [引导](CORE FUNCTIONS/Bootstrapping.md)
 		* [Bootstrap 类型](CORE FUNCTIONS/Bootstrap types.md)
+		* [引导客户端和无连接协议](CORE FUNCTIONS/Bootstrapping clients and connectionless protocols.md)
 
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
