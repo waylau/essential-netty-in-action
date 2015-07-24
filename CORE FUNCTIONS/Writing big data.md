@@ -1,4 +1,4 @@
-编写大数据
+编写大型数据
 ====
 
 由于网络的原因，如何有效的写大数据在异步框架是一个特殊的问题。因为写操作是非阻塞的，即便是在数据不能写出时,只是通知 ChannelFuture 完成了。当这种情况发生时,你必须停止写操作或面临内存耗尽的风险。所以写时,会产生大量的数据,我们需要做好准备来处理的这种情况下的缓慢的连接远端导致延迟释放内存的问题你。作为一个例子让我们考虑写一个文件的内容到网络。
@@ -38,3 +38,51 @@ ChunkedNioFile | 与 ChunkedFile 类似，处理使用了NIOFileChannel
 ChunkedStream | 从 InputStream 中一块一块的转移内容
 ChunkedNioStream | 从 ReadableByteChannel 中一块一块的转移内容
 
+清单 8.12 演示了使用 ChunkedStream,实现在实践中最常用。
+所示的类被实例化一个 File 和一个 SslContext。当 initChannel() 被调用来初始化显示的处理程序链的通道。
+
+当通道激活时，WriteStreamHandler 从文件一块一块的写入数据作为ChunkedStream。最后将数据通过 SslHandler 加密后传播。
+
+Listing 8.12 Transfer file content with FileRegion
+
+    public class ChunkedWriteHandlerInitializer extends ChannelInitializer<Channel> {
+        private final File file;
+        private final SslContext sslCtx;
+        
+        public ChunkedWriteHandlerInitializer(File file, SslContext sslCtx) {
+            this.file = file;
+            this.sslCtx = sslCtx;
+        }
+    
+        @Override
+        protected void initChannel(Channel ch) throws Exception {
+            ChannelPipeline pipeline = ch.pipeline();
+            pipeline.addLast(new SslHandler(sslCtx.createEngine()); //1
+            pipeline.addLast(new ChunkedWriteHandler());//2
+            pipeline.addLast(new WriteStreamHandler());//3
+        }
+    
+        public final class WriteStreamHandler extends ChannelInboundHandlerAdapter {  //4
+    
+            @Override
+            public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                super.channelActive(ctx);
+                ctx.writeAndFlush(new ChunkedStream(new FileInputStream(file)));
+            }
+        }
+    }
+    
+    
+1. 添加 SslHandler 到 ChannelPipeline.
+2. 添加 ChunkedWriteHandler 用来处理作为 ChunkedInput 传进的数据
+3. 当连接建立时，WriteStreamHandler 开始写文件的内容
+4. 当连接建立时，channelActive() 触发使用 ChunkedInput 来写文件的内容 (插图显示了 FileInputStream;也可以使用任何 InputStream )
+
+*ChunkedInput*
+*所有被要求使用自己的 ChunkedInput 实现，是安装ChunkedWriteHandler 在管道中*
+
+在本节中,我们讨论
+* 如何采用zero-copy（零拷贝）功能高效地传输文件
+* 如何使用 ChunkedWriteHandler 编写大型数据而避免 OutOfMemoryErrors 错误。
+
+在下一节中我们将研究几种不同方法来序列化 POJO。

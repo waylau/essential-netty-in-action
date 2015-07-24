@@ -52,7 +52,9 @@ This is the summary of my book.
 		* [构建 Netty HTTP/HTTPS 应用](CORE FUNCTIONS/Building Netty HTTPHTTPS applications.md)
 		* [空闲连接以及超时](CORE FUNCTIONS/Idle connections and Timeouts.md)
 		* [解码分隔符和基于长度的协议](CORE FUNCTIONS/Decoding delimited and length-based protocols.md)
-		* [编写大数据](CORE FUNCTIONS/Writing big data.md)
+		* [编写大型数据](CORE FUNCTIONS/Writing big data.md)
+		* [序列化数据](CORE FUNCTIONS/Serializing data.md)
+		* [总结](CORE FUNCTIONS/8.7  Summary.md)
 	* [Bootstrapping](CORE FUNCTIONS/Bootstrapping.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
