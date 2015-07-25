@@ -63,6 +63,7 @@ This is the summary of my book.
 		* [在一个引导中添加多个 ChannelHandler](CORE FUNCTIONS/Adding multiple ChannelHandlers during a bootstrap.md)
 		* [使用Netty 的 ChannelOption 和属性](CORE FUNCTIONS/Using Netty ChannelOptions and Attributes.md)
 		* [关闭之前已经引导的客户端或服务器](CORE FUNCTIONS/Shutting down a previously bootstrapped Client or Server.md)
+		* [总结](CORE FUNCTIONS/9.9  Summary.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
 	* [WebSocket](NETTY BY EXAMPLE/WebSockets.md)
