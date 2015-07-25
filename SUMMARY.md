@@ -67,6 +67,8 @@ This is the summary of my book.
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
 		* [总览](NETTY BY EXAMPLE/Overview.md)
+		* [测试 ChannelHandler](NETTY BY EXAMPLE/Testing ChannelHandler.md)
+		* [测试异常处理](NETTY BY EXAMPLE/Testing exception handling.md)
 	* [WebSocket](NETTY BY EXAMPLE/WebSockets.md)
 		* [WebSocket 程序示例](NETTY BY EXAMPLE/The example WebSockets application.md)
 		* [添加 WebSocket 支持](NETTY BY EXAMPLE/Adding WebSockets support.md)
