@@ -61,6 +61,7 @@ This is the summary of my book.
 		* [引导服务器](CORE FUNCTIONS/Bootstrapping servers.md)
 		* [从 Channel 引导客户端](CORE FUNCTIONS/Bootstrapping clients from a Channel.md)
 		* [在一个引导中添加多个 ChannelHandler](CORE FUNCTIONS/Adding multiple ChannelHandlers during a bootstrap.md)
+		* [使用Netty 的 ChannelOption 和属性](CORE FUNCTIONS/Using Netty ChannelOptions and Attributes.md)
 * NETTY BY EXAMPLE
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
 	* [WebSocket](NETTY BY EXAMPLE/WebSockets.md)
