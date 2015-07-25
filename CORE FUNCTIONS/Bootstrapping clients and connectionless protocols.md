@@ -29,7 +29,7 @@ Bootstrap 类负责创建管道给客户或应用程序，利用无连接协议�
 
 下图展示了如何工作
 
-![](../iamges/Figure 9.2 Bootstrap process.jpg)
+![](../images/Figure 9.2 Bootstrap process.jpg)
 
 1. 当  bind() 调用时，Bootstrap 将创建一个新的管道, 当 connect() 调用在 Channel 来建立连接
 2. Bootstrap 将创建一个新的管道, 当 connect() 调用时
@@ -93,3 +93,48 @@ Channel 和 EventLoopGroup 的 EventLoop 必须相容，例如NioEventLoop、Nio
 
 清单9.2所示的结果,试图使用一个 Channel 类型与一个 EventLoopGroup 兼容。
 
+Listing 9.2 Bootstrap client with incompatible EventLoopGroup
+
+	EventLoopGroup group = new NioEventLoopGroup();
+	Bootstrap bootstrap = new Bootstrap(); //1
+	bootstrap.group(group) //2
+		.channel(OioSocketChannel.class) //3
+		.handler(new SimpleChannelInboundHandler<ByteBuf>() { //4
+			@Override
+			protected void channelRead0(
+				ChannelHandlerContext channelHandlerContext,
+						ByteBuf byteBuf) throws Exception {
+					System.out.println("Reveived data");
+					byteBuf.clear();
+				}
+			});
+	ChannelFuture future = bootstrap.connect(
+		new InetSocketAddress("www.manning.com", 80)); //5
+	future.syncUninterruptibly();
+
+1. 创建新的 Bootstrap 来创建新的客户端管道
+2. 注册 EventLoopGroup 用于获取 EventLoop
+3. 指定要使用的 Channel 类。通知我们使用 NIO 版本用于
+EventLoopGroup ， OIO 用于 Channel
+4. 设置处理器用于管道的 I/O 事件和数据
+5. 尝试连接到远端。当 NioEventLoopGroup 和  OioSocketChannel 不兼容时，会抛出 IllegalStateException 异常
+
+IllegalStateException 显示如下：
+
+Listing 9.3 IllegalStateException thrown because of invalid configuration
+
+	Exception in thread "main" java.lang.IllegalStateException: incompatible event loop
+	type: io.netty.channel.nio.NioEventLoop
+	at
+	io.netty.channel.AbstractChannel$AbstractUnsafe.register(AbstractChannel.java:5
+	71)
+	...
+
+出现 IllegalStateException 的其他情况是，在 bind() 或 connect() 调用前 调用需要设置参数的方法调用失败时，包括：
+
+* group()
+* channel() 或 channnelFactory()
+* handler()
+
+handler() 方法尤为重要,因为这些 ChannelPipeline 需要适当配置。
+一旦提供了这些参数,应用程序将充分利用 Netty 的能力。
