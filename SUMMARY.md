@@ -89,6 +89,7 @@ This is the summary of my book.
 		* [写广播器](NETTY BY EXAMPLE/Writing the broadcaster.md)
 		* [写监视器](NETTY BY EXAMPLE/Writing the monitor.md)
 		* [运行 LogEventBroadcaster 和 LogEventMonitor](NETTY BY EXAMPLE/Running the LogEventBroadcaster and LogEventMonitor.md)
+		* [总结](NETTY BY EXAMPLE/13.8 Summary.md)
 * 高级主题
 	* [实现自定义编解码器](ADVANCED TOPICS/Implement a custom codec.md)
 	* [EventLoop 和线程模型](ADVANCED TOPICS/EventLoop and thread model.md)
