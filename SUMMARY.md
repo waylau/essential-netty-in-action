@@ -91,7 +91,7 @@ This is the summary of my book.
 		* [运行 LogEventBroadcaster 和 LogEventMonitor](NETTY BY EXAMPLE/Running the LogEventBroadcaster and LogEventMonitor.md)
 		* [总结](NETTY BY EXAMPLE/13.8 Summary.md)
 * 高级主题
-	* [实现自定义编解码器](ADVANCED TOPICS/Implement a custom codec.md)
+	* [实现自定义的编解码器](ADVANCED TOPICS/Implement a custom codec.md)
 	* [EventLoop 和线程模型](ADVANCED TOPICS/EventLoop and thread model.md)
 	* [用例1：Droplr Firebase 和 Urban Airship](ADVANCED TOPICS/Droplr Firebase and Urban Airship.md)
 	* [用例2：Facebook 和 Twitter](ADVANCED TOPICS/Facebook and Twitter.md)
