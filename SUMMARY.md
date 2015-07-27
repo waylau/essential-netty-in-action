@@ -85,6 +85,7 @@ This is the summary of my book.
 		* [UDP 基础](NETTY BY EXAMPLE/UDP Basics.md)
 		* [UDP 广播](NETTY BY EXAMPLE/UDP Broadcast.md)
 		* [UDP 示例](NETTY BY EXAMPLE/The UDP Sample Application.md)
+		* [EventLog 的 POJO](NETTY BY EXAMPLE/EventLog POJOs.md）
 * 高级主题
 	* [实现自定义编解码器](ADVANCED TOPICS/Implement a custom codec.md)
 	* [EventLoop 和线程模型](ADVANCED TOPICS/EventLoop and thread model.md)
