@@ -103,5 +103,6 @@ This is the summary of my book.
 		* [EventLoop](ADVANCED TOPICS/The EventLoop.md)
 		* [EventLoop](ADVANCED TOPICS/Scheduling tasks for later execution.md)
 		* [I/O EventLoop/Thread 分配细节](ADVANCED TOPICS/IO EventLoop Thread allocation in detail.md)
+		* [总结](ADVANCED TOPICS/15.6 Summary.md)
 	* [用例1：Droplr Firebase 和 Urban Airship](ADVANCED TOPICS/Droplr Firebase and Urban Airship.md)
 	* [用例2：Facebook 和 Twitter](ADVANCED TOPICS/Facebook and Twitter.md)
