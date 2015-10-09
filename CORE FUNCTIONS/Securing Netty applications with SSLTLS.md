@@ -53,9 +53,7 @@ Table 8.1 SslHandler methods
 
 名称 | 描述
 -----|----
-setHandshakeTimeout(...) setHandshakeTimeoutMillis(...) getHandshakeTimeoutMillis() | 
-Set and get the timeout, after which the handshake ChannelFuture is notified of failure.
-setCloseNotifyTimeout(...) setCloseNotifyTimeoutMillis(...) getCloseNotifyTimeoutMillis() |
-Set and get the timeout after which the close notify will time out and the connection will close. This also results in having the close notify ChannelFuture fail.
+setHandshakeTimeout(...) setHandshakeTimeoutMillis(...) getHandshakeTimeoutMillis() | Set and get the timeout, after which the handshake ChannelFuture is notified of failure.
+setCloseNotifyTimeout(...) setCloseNotifyTimeoutMillis(...) getCloseNotifyTimeoutMillis() | Set and get the timeout after which the close notify will time out and the connection will close. This also results in having the close notify ChannelFuture fail.
 handshakeFuture() | Returns a ChannelFuture that will be notified once the handshake is complete. If the handshake was done before it will return a ChannelFuture that contains the result of the previous handshake.
 close(...) | Send the close_notify to request close and destroy the underlying SslEngine.
