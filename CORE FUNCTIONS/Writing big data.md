@@ -23,7 +23,7 @@ Listing 8.11 Transferring file contents with FileRegion
     });
 
 1. 获取 FileInputStream
-2. 创建一个心的 DefaultFileRegion 用于文件的完整长度
+2. 创建一个新的 DefaultFileRegion 用于文件的完整长度
 3. 发送 DefaultFileRegion 并且注册一个 ChannelFutureListener
 4. 处理发送失败
 
