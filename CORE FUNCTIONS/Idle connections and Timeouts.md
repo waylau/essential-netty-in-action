@@ -10,7 +10,7 @@ Table 8.4 ChannelHandlers for idle connections and timeouts
 名称 | 描述
 -----|----
 IdleStateHandler | fires an IdleStateEvent if the connection idles too long. You can then handle the IdleStateEvent by overriding the userEventTriggered(...) method in your ChannelInboundHandler.
-ReadTimeoutHandler |throws a ReadTimeoutException and closes the Channel when no inbound
+ReadTimeoutHandler | throws a ReadTimeoutException and closes the Channel when no inbound
 data is received for a specified interval. The ReadTimeoutException can be detected by overriding the exceptionCaught(...) method of your ChannelHandler.
 WriteTimeoutHandler | throws a WriteTimeoutException and closes the Channel when no inbound
 data is received for a specified interval. The WriteTimeoutException can be detected by overriding the exceptionCaught(...) method of your ChannelHandler.
