@@ -13,7 +13,7 @@ Key length | 2 和 3 | 1...32,767
 Extra length | 4 | 0x00, x04, 或 0x08
 Data type | 5 | 0x00
 Reserved | 6 和 7 | 0x00
-所有 body 的长度 | 8-11 | 所有 body 的长度
+Total body length | 8-11 | 所有 body 的长度
 Opaque | 12-15 | 任何带带符号的 32-bit 整数; 这个已将包含在响应中，因此更容易将请求映射到响应。
 CAS | 16-23 | 数据版本检查
 
@@ -21,7 +21,7 @@ CAS | 16-23 | 数据版本检查
 
 ![](../images/Figure 14.2 Real-world Memcached request and response headers.jpg)
 
-1. 请求（只有头显示）
+1. 请求（只有显示头）
 2. 响应
 
 Figure 14.2 Real-world Memcached request and response headers
