@@ -34,7 +34,7 @@ This is the summary of my book.
 		* [字节级别的操作](CORE FUNCTIONS/Byte-level Operations.md)
 		* [ByteBufHolder](CORE FUNCTIONS/ByteBufHolder.md)
 		* [ByteBuf 分配](CORE FUNCTIONS/ByteBuf allocation.md)
-		* [引用计数器](CORE FUNCTIONS/BReference counting.md)
+		* [引用计数器](CORE FUNCTIONS/Reference counting.md)
 		* [总结](CORE FUNCTIONS/5.7  Summary.md)
  	* [ChannelHandler 和 ChannelPipeline](CORE FUNCTIONS/ChannelHandler and ChannelPipeline.md)
 		* [ChannelHandler 家族](CORE FUNCTIONS/The ChannelHandler Family.md)
