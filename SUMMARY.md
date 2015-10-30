@@ -64,7 +64,7 @@ This is the summary of my book.
 		* [使用Netty 的 ChannelOption 和属性](CORE FUNCTIONS/Using Netty ChannelOptions and Attributes.md)
 		* [关闭之前已经引导的客户端或服务器](CORE FUNCTIONS/Shutting down a previously bootstrapped Client or Server.md)
 		* [总结](CORE FUNCTIONS/9.9  Summary.md)
-* NETTY BY EXAMPLE
+* NETTY 实例
 	* [单元测试](NETTY BY EXAMPLE/Unit Testing.md)
 		* [总览](NETTY BY EXAMPLE/Overview.md)
 		* [测试 ChannelHandler](NETTY BY EXAMPLE/Testing ChannelHandler.md)
