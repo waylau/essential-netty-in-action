@@ -14,10 +14,10 @@ Extra length | 4 | 0x00, x04, 或 0x08
 Data type | 5 | 0x00
 Reserved | 6 和 7 | 0x00
 Total body length | 8-11 | 所有 body 的长度
-Opaque | 12-15 | 任何带带符号的 32-bit 整数; 这个已将包含在响应中，因此更容易将请求映射到响应。
+Opaque | 12-15 | 任何带带符号的 32-bit 整数; 这个也包含在响应中，因此更容易将请求映射到响应。
 CAS | 16-23 | 数据版本检查
 
-注意有多少字节用于每个部分。这告诉你以后你应该用什么数据类型。例如,如果一个字节抵消只使用 byte 0,然后使用一个 Java byte来表示它;如果它使用6和7(2字节),你使用一个Java short;如果它使用 12-15(4字节),你使用一个Java int,等等。
+注意每个部分使用的字节数。这告诉你接下来你应该用什么数据类型。例如,如果字节的偏移量只是 byte 0,那么旧使用一个 Java byte来表示它;如果它是6和7(2字节),你使用一个Java short;如果它是 12-15(4字节),你使用一个Java int,等等。
 
 ![](../images/Figure 14.2 Real-world Memcached request and response headers.jpg)
 
