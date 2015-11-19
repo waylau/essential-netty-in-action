@@ -8,7 +8,7 @@ ChannelInboundHandler 和 ChannelOutboundHandler )。
 
 ### ByteToMessageCodec 
 
-我们需要解码字节到消息,也许是一个 POJO,然后转回来。ByteToMessageCodec 将为我们处理这个问题,因为它结合了ByteToMessageDecoder 和 MessageToByteDecoder。表7.5中列出的重要方法。
+我们需要解码字节到消息,也许是一个 POJO,然后转回来。ByteToMessageCodec 将为我们处理这个问题,因为它结合了ByteToMessageDecoder 和 MessageToByteEncoder。表7.5中列出的重要方法。
 
 Table 7.5 ByteToMessageCodec API
 
