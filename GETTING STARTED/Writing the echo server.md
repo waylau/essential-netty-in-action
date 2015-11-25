@@ -132,7 +132,7 @@ Listing 2.3 EchoServer
 
 1.设置端口值（抛出一个 NumberFormatException 如果该端口参数的格式不正确）
 
-2.呼叫服务器的 start（）方法
+2.呼叫服务器的 start() 方法
 
 3.创建 EventLoopGroup
 
@@ -164,7 +164,7 @@ OioServerSocketChannel 和 OioEventLoopGroup。 Netty 的架构，包括更关�
 服务器的主代码组件是
 
 * EchoServerHandler 实现了的业务逻辑
-* 在 main（）方法，引导了服务器
+* 在 main() 方法，引导了服务器
 
 执行后者所需的步骤是：
 * 创建 ServerBootstrap 实例来引导服务器并随后绑定
