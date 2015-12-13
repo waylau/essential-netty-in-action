@@ -55,7 +55,7 @@ This is the summary of my book.
 		* [编写大型数据](CORE FUNCTIONS/Writing big data.md)
 		* [序列化数据](CORE FUNCTIONS/Serializing data.md)
 		* [总结](CORE FUNCTIONS/8.7  Summary.md)
-	* [引导](CORE FUNCTIONS/Bootstrapping.md)
+ 	* [引导](CORE FUNCTIONS/Bootstrapping.md)
 		* [Bootstrap 类型](CORE FUNCTIONS/Bootstrap types.md)
 		* [引导客户端和无连接协议](CORE FUNCTIONS/Bootstrapping clients and connectionless protocols.md)
 		* [引导服务器](CORE FUNCTIONS/Bootstrapping servers.md)
