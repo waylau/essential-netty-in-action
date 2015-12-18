@@ -9,7 +9,7 @@ Bootstrapping（引导） 是 Netty 中配置程序的过程，当你需要连�
 
 *请记住，这个讨论适用于 TCP 协议，它是“面向连接”的。这样协议保证该连接的端点之间的消息的有序输送。无连接协议发送的消息，无法保证顺序和成功性*
 
-两种 bootsstraps 之间有一些相似之处，也有一些不同。Bootstrap 和 ServerBootstrap 之间的差异如下：
+两种 Bootstrapping 之间有一些相似之处，也有一些不同。Bootstrap 和 ServerBootstrap 之间的差异如下：
 
 Table 3.1 Comparison of Bootstrap classes
 
