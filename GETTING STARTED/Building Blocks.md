@@ -11,7 +11,7 @@
 
 现在,把 Channel 想象成一个可以“打开”或“关闭”,“连接”或“断开”和作为传入和传出数据的运输工具。
 
-###Callback (回调)
+### Callback (回调)
 
 callback (回调)是一个简单的方法,提供给另一种方法作为引用,这样后者就可以在某个合适的时间调用前者。这种技术被广泛使用在各种编程的情况下,最常见的方法之一通知给其他人操作已完成。
 
@@ -29,7 +29,7 @@ Listing 1.2 ChannelHandler triggered by a callback
 
 1.当建立一个新的连接时调用 ChannelActive()
 
-###Future
+### Future
 
 Future 提供了另外一种通知应用操作已经完成的方式。这个对象作为一个异步操作结果的占位符,它将在将来的某个时候完成并提供结果。
 
@@ -88,7 +88,7 @@ Listing 1.4 Callback in action
 
 6.如果有一个错误则抛出 Throwable,描述错误原因。
 
-###Event 和 Handler
+### Event 和 Handler
 
 Netty 使用不同的事件来通知我们更改的状态或操作的状态。这使我们能够根据发生的事件触发适当的行为。
 
@@ -121,15 +121,15 @@ Figure 1.3 Event Flow
 
 Netty 还提供了一组丰富的预定义的处理程序,您可以开箱即用。这些是各种协议的编解码器包括 HTTP 和 SSL/TLS。在内部,ChannelHandler 使用事件和 future 本身,使得消费者的具有 Netty 的抽象。
 
-###整合
+### 整合
 
-####FUTURE, CALLBACK 和 HANDLER
+#### FUTURE, CALLBACK 和 HANDLER
 
 Netty 的异步编程模型是建立在 future 和 callback 的概念上的。所有这些元素的协同为自己的设计提供了强大的力量。
 
 拦截操作和转换入站或出站数据只需要您提供回调或利用 future 操作返回的。这使得链操作简单、高效,促进编写可重用的、通用的代码。一个 Netty 的设计的主要目标是促进“关注点分离”:你的业务逻辑从网络基础设施应用程序中分离。
 
-####SELECTOR, EVENT 和 EVENT LOOP
+#### SELECTOR, EVENT 和 EVENT LOOP
 
 Netty 通过触发事件从应用程序中抽象出 Selector，从而避免手写调度代码。EventLoop 分配给每个 Channel 来处理所有的事件，包括
 
