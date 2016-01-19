@@ -12,7 +12,7 @@ Table 4.1 Provided transports
 NIO|io.netty.channel.socket.nio|基于java.nio.channels的工具包，使用选择器作为基础的方法。
 OIO|io.netty.channel.socket.oio|基于java.net的工具包，使用阻塞流。
 Local|io.netty.channel.local|用来在虚拟机之间本地通信。
-Embedded|io.netty.channel.embedded|嵌入传输，它允许在没有真正网络的运输中使用 ChannelHandler，可以非常有用的来测试ChannelHandler的实现。
+Embedded|io.netty.channel.embedded|嵌入传输，它允许在没有真正网络的传输中使用 ChannelHandler，可以非常有用的来测试ChannelHandler的实现。
 
 ###NIO-Nonblocking I/O 
 
@@ -94,7 +94,7 @@ Figure 4.3 OIO-Processing logic
 
 ###本地 Transport 与 JVM 交互 
 
-Netty 提供了“本地”运输，为运行在同一个 Java 虚拟机上的服务器和客户之间提供异步通信。此传输支持所有的 Netty 常见的传输实现的 API。
+Netty 提供了“本地”传输，为运行在同一个 Java 虚拟机上的服务器和客户之间提供异步通信。此传输支持所有的 Netty 常见的传输实现的 API。
 
 在此传输中，与服务器 Channel 关联的 SocketAddress 不是“绑定”到一个物理网络地址中，而它被存储在注册表中，只要服务器是运行的。当 Channel 关闭时它会注销。由于传输不接受“真正的”网络通信，它不能与其他传输实现互操作。因此，客户端是希望连接到使用当地的交通必须使用它，以及一个服务器。除此限制之外，它的使用是与其他的传输是相同的。
 
