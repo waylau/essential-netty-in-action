@@ -1,0 +1,1914 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>ByteBuf - 字节数据的容器 | Essential Netty in Action 《Netty 实战(精髓)》</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.6">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../CORE FUNCTIONS/Byte-level Operations.html" />
+    
+    
+    <link rel="prev" href="../CORE FUNCTIONS/Buffer API.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="2.2.2"
+        data-chapter-title="ByteBuf - 字节数据的容器"
+        data-filepath="CORE FUNCTIONS/ByteBuf - The byte data container.md"
+        data-basepath=".."
+        data-revision="Tue Feb 16 2016 16:14:58 GMT+0800 (中国标准时间)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" >
+            
+            <span><b>1.</b> 开始</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="GETTING STARTED/Asynchronous and Event Driven.html">
+            
+                
+                    <a href="../GETTING STARTED/Asynchronous and Event Driven.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        Netty-异步和数据驱动
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="GETTING STARTED/Introducing Netty.html">
+            
+                
+                    <a href="../GETTING STARTED/Introducing Netty.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.1.</b>
+                        
+                        Netty 介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" data-path="GETTING STARTED/Building Blocks.html">
+            
+                
+                    <a href="../GETTING STARTED/Building Blocks.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.2.</b>
+                        
+                        构成部分
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" data-path="GETTING STARTED/About this Book.html">
+            
+                
+                    <a href="../GETTING STARTED/About this Book.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.3.</b>
+                        
+                        关于本书
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="GETTING STARTED/Your first Netty application.html">
+            
+                
+                    <a href="../GETTING STARTED/Your first Netty application.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        第一个 Netty 应用
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="GETTING STARTED/Setting up the development environment.html">
+            
+                
+                    <a href="../GETTING STARTED/Setting up the development environment.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.1.</b>
+                        
+                        设置开发环境
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="GETTING STARTED/Netty client  server overview.html">
+            
+                
+                    <a href="../GETTING STARTED/Netty client  server overview.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.2.</b>
+                        
+                        Netty 客户端/服务端 总览
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="GETTING STARTED/Writing the echo server.html">
+            
+                
+                    <a href="../GETTING STARTED/Writing the echo server.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.3.</b>
+                        
+                        写一个 echo 服务器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="GETTING STARTED/Writing an echo client.html">
+            
+                
+                    <a href="../GETTING STARTED/Writing an echo client.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.4.</b>
+                        
+                        写一个 echo 客户端
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="GETTING STARTED/Building and running the Echo Server and Client.html">
+            
+                
+                    <a href="../GETTING STARTED/Building and running the Echo Server and Client.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.5.</b>
+                        
+                        编译和运行 Echo 服务器和客户端
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="GETTING STARTED/Summary.html">
+            
+                
+                    <a href="../GETTING STARTED/Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.6.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="GETTING STARTED/Netty Overview.html">
+            
+                
+                    <a href="../GETTING STARTED/Netty Overview.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.</b>
+                        
+                        Netty 总览
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="GETTING STARTED/Netty Crash Course.html">
+            
+                
+                    <a href="../GETTING STARTED/Netty Crash Course.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.1.</b>
+                        
+                        Netty 快速入门
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="GETTING STARTED/Channels, Events and IO.html">
+            
+                
+                    <a href="../GETTING STARTED/Channels, Events and IO.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.2.</b>
+                        
+                        Channel, Event 和 I/O
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="GETTING STARTED/The What and Why of Bootstrapping.html">
+            
+                
+                    <a href="../GETTING STARTED/The What and Why of Bootstrapping.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.3.</b>
+                        
+                        什么是 Bootstrapping 为什么要用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="GETTING STARTED/ChannelHandler and ChannelPipeline.html">
+            
+                
+                    <a href="../GETTING STARTED/ChannelHandler and ChannelPipeline.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.4.</b>
+                        
+                        ChannelHandler 和 ChannelPipeline
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="GETTING STARTED/A Closer Look at ChannelHandlers.html">
+            
+                
+                    <a href="../GETTING STARTED/A Closer Look at ChannelHandlers.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.5.</b>
+                        
+                        近距离观察 ChannelHandler
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="GETTING STARTED/3.6  Summary.html">
+            
+                
+                    <a href="../GETTING STARTED/3.6  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.6.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" >
+            
+            <span><b>2.</b> 核心功能</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="CORE FUNCTIONS/Transports.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Transports.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Transport（传输）
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="CORE FUNCTIONS/Case study transport migration.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Case study transport migration.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.1.</b>
+                        
+                        案例研究:Transport 的迁移
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="CORE FUNCTIONS/Transport API.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Transport API.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.2.</b>
+                        
+                        Transport API
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="CORE FUNCTIONS/Included transports.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Included transports.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.3.</b>
+                        
+                        包含的 Transport
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="CORE FUNCTIONS/Transport Use Cases.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Transport Use Cases.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.4.</b>
+                        
+                        Transport 使用情况
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5" data-path="CORE FUNCTIONS/4.5  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/4.5  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.5.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="CORE FUNCTIONS/Buffers.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Buffers.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                        Buffer（缓冲）
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="CORE FUNCTIONS/Buffer API.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Buffer API.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.1.</b>
+                        
+                        Buffer API
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.2.2" data-path="CORE FUNCTIONS/ByteBuf - The byte data container.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ByteBuf - The byte data container.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.2.</b>
+                        
+                        ByteBuf - 字节数据的容器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="CORE FUNCTIONS/Byte-level Operations.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Byte-level Operations.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.3.</b>
+                        
+                        字节级别的操作
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.4" data-path="CORE FUNCTIONS/ByteBufHolder.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ByteBufHolder.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.4.</b>
+                        
+                        ByteBufHolder
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5" data-path="CORE FUNCTIONS/ByteBuf allocation.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ByteBuf allocation.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.5.</b>
+                        
+                        ByteBuf 分配
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.6" data-path="CORE FUNCTIONS/Reference counting.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Reference counting.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.6.</b>
+                        
+                        引用计数器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.7" data-path="CORE FUNCTIONS/5.7  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/5.7  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.7.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="CORE FUNCTIONS/ChannelHandler and ChannelPipeline.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ChannelHandler and ChannelPipeline.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.</b>
+                        
+                        ChannelHandler 和 ChannelPipeline
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="CORE FUNCTIONS/The ChannelHandler Family.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/The ChannelHandler Family.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.1.</b>
+                        
+                        ChannelHandler 家族
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="CORE FUNCTIONS/ChannelPipeline.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ChannelPipeline.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.2.</b>
+                        
+                        ChannelPipeline
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.3" data-path="CORE FUNCTIONS/ChannelHandlerContext.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/ChannelHandlerContext.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.3.</b>
+                        
+                        ChannelHandlerContext
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.4" data-path="CORE FUNCTIONS/6.4  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/6.4  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.4.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="CORE FUNCTIONS/The Codec Framework.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/The Codec Framework.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.</b>
+                        
+                        Codec 框架
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.4.1" data-path="CORE FUNCTIONS/What is a Codec.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/What is a Codec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.1.</b>
+                        
+                        什么是 Codec
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.2" data-path="CORE FUNCTIONS/Decoders.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Decoders.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.2.</b>
+                        
+                        Decoder(解码器)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.3" data-path="CORE FUNCTIONS/Encoders.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Encoders.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.3.</b>
+                        
+                        Encoder(编码器)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.4" data-path="CORE FUNCTIONS/Abstract Codec classes.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Abstract Codec classes.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.4.</b>
+                        
+                        抽象 Codec(编解码器)类
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.5" data-path="CORE FUNCTIONS/7.5  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/7.5  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.5.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="CORE FUNCTIONS/Provided ChannelHandlers and Codecs.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Provided ChannelHandlers and Codecs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.</b>
+                        
+                        提供了的 ChannelHandler 和 Codec
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="CORE FUNCTIONS/Securing Netty applications with SSLTLS.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Securing Netty applications with SSLTLS.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.1.</b>
+                        
+                        使用 SSL/TLS 加密 Netty 程序
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="CORE FUNCTIONS/Building Netty HTTPHTTPS applications.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Building Netty HTTPHTTPS applications.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.2.</b>
+                        
+                        构建 Netty HTTP/HTTPS 应用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.3" data-path="CORE FUNCTIONS/Idle connections and Timeouts.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Idle connections and Timeouts.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.3.</b>
+                        
+                        空闲连接以及超时
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.4" data-path="CORE FUNCTIONS/Decoding delimited and length-based protocols.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Decoding delimited and length-based protocols.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.4.</b>
+                        
+                        解码分隔符和基于长度的协议
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.5" data-path="CORE FUNCTIONS/Writing big data.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Writing big data.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.5.</b>
+                        
+                        编写大型数据
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.6" data-path="CORE FUNCTIONS/Serializing data.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Serializing data.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.6.</b>
+                        
+                        序列化数据
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.7" data-path="CORE FUNCTIONS/8.7  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/8.7  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.7.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="CORE FUNCTIONS/Bootstrapping.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Bootstrapping.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.</b>
+                        
+                        引导
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.6.1" data-path="CORE FUNCTIONS/Bootstrap types.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Bootstrap types.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.1.</b>
+                        
+                        Bootstrap 类型
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.2" data-path="CORE FUNCTIONS/Bootstrapping clients and connectionless protocols.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Bootstrapping clients and connectionless protocols.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.2.</b>
+                        
+                        引导客户端和无连接协议
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.3" data-path="CORE FUNCTIONS/Bootstrapping servers.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Bootstrapping servers.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.3.</b>
+                        
+                        引导服务器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.4" data-path="CORE FUNCTIONS/Bootstrapping clients from a Channel.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Bootstrapping clients from a Channel.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.4.</b>
+                        
+                        从 Channel 引导客户端
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.5" data-path="CORE FUNCTIONS/Adding multiple ChannelHandlers during a bootstrap.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Adding multiple ChannelHandlers during a bootstrap.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.5.</b>
+                        
+                        在一个引导中添加多个 ChannelHandler
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.6" data-path="CORE FUNCTIONS/Using Netty ChannelOptions and Attributes.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Using Netty ChannelOptions and Attributes.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.6.</b>
+                        
+                        使用Netty 的 ChannelOption 和属性
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.7" data-path="CORE FUNCTIONS/Shutting down a previously bootstrapped Client or Server.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/Shutting down a previously bootstrapped Client or Server.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.7.</b>
+                        
+                        关闭之前已经引导的客户端或服务器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6.8" data-path="CORE FUNCTIONS/9.9  Summary.html">
+            
+                
+                    <a href="../CORE FUNCTIONS/9.9  Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.8.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" >
+            
+            <span><b>3.</b> NETTY 实例</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="NETTY BY EXAMPLE/Unit Testing.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Unit Testing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        单元测试
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="NETTY BY EXAMPLE/Overview.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Overview.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        总览
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="NETTY BY EXAMPLE/Testing ChannelHandler.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Testing ChannelHandler.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        测试 ChannelHandler
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="NETTY BY EXAMPLE/Testing exception handling.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Testing exception handling.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        测试异常处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="NETTY BY EXAMPLE/10.4 Summary.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/10.4 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="NETTY BY EXAMPLE/WebSockets.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/WebSockets.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        WebSocket
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="NETTY BY EXAMPLE/The example WebSockets application.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/The example WebSockets application.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        WebSocket 程序示例
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="NETTY BY EXAMPLE/Adding WebSockets support.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Adding WebSockets support.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        添加 WebSocket 支持
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="NETTY BY EXAMPLE/Testing the Application.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Testing the Application.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        测试程序
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="NETTY BY EXAMPLE/11.4 Summary.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/11.4 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.4.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="NETTY BY EXAMPLE/SPDY.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/SPDY.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        SPDY
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="NETTY BY EXAMPLE/SPDY background.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/SPDY background.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        SPDY 背景
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="NETTY BY EXAMPLE/The sample application.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/The sample application.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        示例程序
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="NETTY BY EXAMPLE/Implementation.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Implementation.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        实现
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="NETTY BY EXAMPLE/Start the SpdyServer and test it.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Start the SpdyServer and test it.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        启动 SpdyServer 并测试
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="NETTY BY EXAMPLE/12.5 Summary.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/12.5 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="NETTY BY EXAMPLE/Broadcasting events with UDP.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Broadcasting events with UDP.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        通过 UDP 广播事件
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1" data-path="NETTY BY EXAMPLE/UDP Basics.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/UDP Basics.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.1.</b>
+                        
+                        UDP 基础
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.2" data-path="NETTY BY EXAMPLE/UDP Broadcast.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/UDP Broadcast.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.2.</b>
+                        
+                        UDP 广播
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.3" data-path="NETTY BY EXAMPLE/The UDP Sample Application.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/The UDP Sample Application.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.3.</b>
+                        
+                        UDP 示例
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.4" data-path="NETTY BY EXAMPLE/EventLog POJOs.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/EventLog POJOs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.4.</b>
+                        
+                        EventLog 的 POJO
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.5" data-path="NETTY BY EXAMPLE/Writing the broadcaster.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Writing the broadcaster.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.5.</b>
+                        
+                        写广播器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.6" data-path="NETTY BY EXAMPLE/Writing the monitor.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Writing the monitor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.6.</b>
+                        
+                        写监视器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.7" data-path="NETTY BY EXAMPLE/Running the LogEventBroadcaster and LogEventMonitor.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/Running the LogEventBroadcaster and LogEventMonitor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.7.</b>
+                        
+                        运行 LogEventBroadcaster 和 LogEventMonitor
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.8" data-path="NETTY BY EXAMPLE/13.8 Summary.html">
+            
+                
+                    <a href="../NETTY BY EXAMPLE/13.8 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.8.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" >
+            
+            <span><b>4.</b> 高级主题</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="ADVANCED TOPICS/Implement a custom codec.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Implement a custom codec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        实现自定义的编解码器
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="ADVANCED TOPICS/Scope of the codec.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Scope of the codec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.1.</b>
+                        
+                        编解码器的范围
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="ADVANCED TOPICS/Implementing the Memcached codec.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Implementing the Memcached codec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.2.</b>
+                        
+                        实现 Memcached 编解码器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="ADVANCED TOPICS/Getting to know the Memcached binary protocol.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Getting to know the Memcached binary protocol.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.3.</b>
+                        
+                        了解 Memcached 二进制协议
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="ADVANCED TOPICS/Netty encoders and decoders.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Netty encoders and decoders.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.4.</b>
+                        
+                        Netty 编码器和解码器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="ADVANCED TOPICS/Testing the codec.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Testing the codec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.5.</b>
+                        
+                        测试编解码器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6" data-path="ADVANCED TOPICS/14.6 Summary.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/14.6 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.6.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="ADVANCED TOPICS/EventLoop and thread model.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/EventLoop and thread model.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        EventLoop 和线程模型
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="ADVANCED TOPICS/Thread model overview.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Thread model overview.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.1.</b>
+                        
+                        线程模型的总览
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="ADVANCED TOPICS/The EventLoop.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/The EventLoop.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.2.</b>
+                        
+                        EventLoop
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="ADVANCED TOPICS/Scheduling tasks for later execution.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Scheduling tasks for later execution.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.3.</b>
+                        
+                        EventLoop
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.4" data-path="ADVANCED TOPICS/IO EventLoop Thread allocation in detail.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/IO EventLoop Thread allocation in detail.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.4.</b>
+                        
+                        I/O EventLoop/Thread 分配细节
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.5" data-path="ADVANCED TOPICS/15.6 Summary.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/15.6 Summary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.5.</b>
+                        
+                        总结
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="ADVANCED TOPICS/Droplr Firebase and Urban Airship.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Droplr Firebase and Urban Airship.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.3.</b>
+                        
+                        用例1：Droplr Firebase 和 Urban Airship
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="ADVANCED TOPICS/Facebook and Twitter.html">
+            
+                
+                    <a href="../ADVANCED TOPICS/Facebook and Twitter.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.4.</b>
+                        
+                        用例2：Facebook 和 Twitter
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Essential Netty in Action 《Netty 实战(精髓)》</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="bytebuf--&#x5B57;&#x8282;&#x6570;&#x636E;&#x7684;&#x5BB9;&#x5668;">ByteBuf - &#x5B57;&#x8282;&#x6570;&#x636E;&#x7684;&#x5BB9;&#x5668;</h1>
+<p>&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x7684;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x6700;&#x7EC8;&#x90FD;&#x662F;&#x57FA;&#x4E8E;&#x5E95;&#x5C42;&#x7684;&#x5B57;&#x8282;&#x6D41;&#x4F20;&#x8F93;&#xFF0C;&#x56E0;&#x6B64;&#x4E00;&#x4E2A;&#x9AD8;&#x6548;&#x3001;&#x65B9;&#x4FBF;&#x3001;&#x6613;&#x7528;&#x7684;&#x6570;&#x636E;&#x63A5;&#x53E3;&#x662F;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x800C; Netty &#x7684; ByteBuf &#x6EE1;&#x8DB3;&#x8FD9;&#x4E9B;&#x9700;&#x6C42;&#x3002;</p>
+<p>ByteBuf &#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x597D;&#x7684;&#x7ECF;&#x8FC7;&#x4F18;&#x5316;&#x7684;&#x6570;&#x636E;&#x5BB9;&#x5668;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C06;&#x5B57;&#x8282;&#x6570;&#x636E;&#x6709;&#x6548;&#x7684;&#x6DFB;&#x52A0;&#x5230; ByteBuf &#x4E2D;&#x6216;&#x4ECE; ByteBuf &#x4E2D;&#x83B7;&#x53D6;&#x6570;&#x636E;&#x3002;ByteBuf &#x6709;2&#x90E8;&#x5206;&#xFF1A;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x8BFB;&#xFF0C;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x5199;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6309;&#x987A;&#x5E8F;&#x7684;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8C03;&#x6574;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#x7684;&#x7D22;&#x5F15;&#x6216;&#x8005;&#x76F4;&#x63A5;&#x5C06;&#x8BFB;&#x53D6;&#x4F4D;&#x7F6E;&#x7D22;&#x5F15;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9;get&#x65B9;&#x6CD5;&#x6765;&#x91CD;&#x590D;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#x3002;</p>
+<h3 id="bytebuf-&#x5982;&#x4F55;&#x5728;&#x5DE5;&#x4F5C;&#xFF1F;">ByteBuf &#x5982;&#x4F55;&#x5728;&#x5DE5;&#x4F5C;&#xFF1F;</h3>
+<p>&#x5199;&#x5165;&#x6570;&#x636E;&#x5230; ByteBuf &#x540E;&#xFF0C;writerIndex&#xFF08;&#x5199;&#x5165;&#x7D22;&#x5F15;&#xFF09;&#x589E;&#x52A0;&#x3002;&#x5F00;&#x59CB;&#x8BFB;&#x5B57;&#x8282;&#x540E;&#xFF0C;readerIndex&#xFF08;&#x8BFB;&#x53D6;&#x7D22;&#x5F15;&#xFF09;&#x589E;&#x52A0;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x8BFB;&#x53D6;&#x5B57;&#x8282;&#xFF0C;&#x76F4;&#x5230;&#x5199;&#x5165;&#x7D22;&#x5F15;&#x548C;&#x8BFB;&#x53D6;&#x7D22;&#x5F15;&#x5904;&#x5728;&#x76F8;&#x540C;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;ByteBuf &#x53D8;&#x4E3A;&#x4E0D;&#x53EF;&#x8BFB;&#x3002;&#x5F53;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x8D85;&#x8FC7;&#x6570;&#x7EC4;&#x7684;&#x6700;&#x540E;&#x4F4D;&#xFF0C;&#x5219;&#x4F1A;&#x629B;&#x51FA; IndexOutOfBoundsException&#x3002;</p>
+<p>&#x8C03;&#x7528; ByteBuf &#x7684; &quot;read&quot; &#x6216; &quot;write&quot; &#x5F00;&#x5934;&#x7684;&#x4EFB;&#x4F55;&#x65B9;&#x6CD5;&#x90FD;&#x4F1A;&#x63D0;&#x5347; &#x76F8;&#x5E94;&#x7684;&#x7D22;&#x5F15;&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&quot;set&quot; &#x3001; &quot;get&quot;&#x64CD;&#x4F5C;&#x5B57;&#x8282;&#x5C06;&#x4E0D;&#x4F1A;&#x79FB;&#x52A8;&#x7D22;&#x5F15;&#x4F4D;&#x7F6E;&#xFF1B;&#x4ED6;&#x4EEC;&#x53EA;&#x4F1A;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x7684;&#x901A;&#x8FC7;&#x53C2;&#x6570;&#x4F20;&#x5165;&#x65B9;&#x6CD5;&#x7684;&#x76F8;&#x5BF9;&#x7D22;&#x5F15;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x7ED9;ByteBuf&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x6700;&#x5927;&#x5BB9;&#x91CF;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x9650;&#x5236;&#x7740;ByteBuf&#x7684;&#x5BB9;&#x91CF;&#x3002;&#x4EFB;&#x4F55;&#x5C1D;&#x8BD5;&#x5C06;&#x5199;&#x5165;&#x7D22;&#x5F15;&#x8D85;&#x8FC7;&#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x884C;&#x4E3A;&#x90FD;&#x5C06;&#x5BFC;&#x81F4;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;ByteBuf &#x7684;&#x9ED8;&#x8BA4;&#x6700;&#x5927;&#x5BB9;&#x91CF;&#x9650;&#x5236;&#x662F; Integer.MAX_VALUE&#x3002;</p>
+<p>ByteBuf &#x7C7B;&#x4F3C;&#x4E8E;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x6570;&#x7EC4;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x533A;&#x522B;&#x662F;&#x8BFB;&#x548C;&#x5199;&#x7684;&#x7D22;&#x5F15;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x63A7;&#x5236;&#x5BF9;&#x7F13;&#x51B2;&#x533A;&#x6570;&#x636E;&#x7684;&#x8BBF;&#x95EE;&#x3002;&#x4E0B;&#x56FE;&#x663E;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x5BB9;&#x91CF;&#x4E3A;16&#x7684;&#x7A7A;&#x7684; ByteBuf  &#x7684;&#x5E03;&#x5C40;&#x548C;&#x72B6;&#x6001;&#xFF0C;writerIndex &#x548C; readerIndex &#x90FD;&#x5728;&#x7D22;&#x5F15;&#x4F4D;&#x7F6E; 0 &#xFF1A;</p>
+<p>Figure 5.1 A 16-byte ByteBuf with its indices set to 0</p>
+<p><img src="../images/Figure 5.1 A 16-byte ByteBuf with its indices set to 0.jpg" alt=""></p>
+<h3 id="bytebuf-&#x4F7F;&#x7528;&#x6A21;&#x5F0F;">ByteBuf &#x4F7F;&#x7528;&#x6A21;&#x5F0F;</h3>
+<h4 id="heap-buffer&#x5806;&#x7F13;&#x51B2;&#x533A;">HEAP BUFFER(&#x5806;&#x7F13;&#x51B2;&#x533A;)</h4>
+<p>&#x6700;&#x5E38;&#x7528;&#x7684;&#x6A21;&#x5F0F;&#x662F; ByteBuf &#x5C06;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728; JVM &#x7684;&#x5806;&#x7A7A;&#x95F4;&#xFF0C;&#x8FD9;&#x662F;&#x901A;&#x8FC7;&#x5C06;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728;&#x6570;&#x7EC4;&#x7684;&#x5B9E;&#x73B0;&#x3002;&#x5806;&#x7F13;&#x51B2;&#x533A;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x5206;&#x914D;&#xFF0C;&#x5F53;&#x4E0D;&#x4F7F;&#x7528;&#x65F6;&#x4E5F;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x91CA;&#x653E;&#x3002;&#x5B83;&#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x6570;&#x7EC4;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7; ByteBuf.array() &#x6765;&#x83B7;&#x53D6; byte[]&#x6570;&#x636E;&#x3002;
+&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x6B63;&#x5982;&#x6E05;&#x5355;5.1&#x4E2D;&#x6240;&#x793A;&#x7684;&#x90A3;&#x6837;&#xFF0C;&#x662F;&#x975E;&#x5E38;&#x9002;&#x5408;&#x7528;&#x6765;&#x5904;&#x7406;&#x9057;&#x7559;&#x6570;&#x636E;&#x7684;&#x3002;</p>
+<p>Listing 5.1 Backing array</p>
+<pre><code>ByteBuf heapBuf = ...;
+if (heapBuf.hasArray()) {                //1
+    byte[] array = heapBuf.array();        //2
+    int offset = heapBuf.arrayOffset() + heapBuf.readerIndex();                //3
+    int length = heapBuf.readableBytes();//4
+    handleArray(array, offset, length); //5
+}
+</code></pre><p>1.&#x68C0;&#x67E5; ByteBuf &#x662F;&#x5426;&#x6709;&#x652F;&#x6301;&#x6570;&#x7EC4;&#x3002;</p>
+<p>2.&#x5982;&#x679C;&#x6709;&#x7684;&#x8BDD;&#xFF0C;&#x5F97;&#x5230;&#x5F15;&#x7528;&#x6570;&#x7EC4;&#x3002;</p>
+<p>3.&#x8BA1;&#x7B97;&#x7B2C;&#x4E00;&#x5B57;&#x8282;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x3002;</p>
+<p>4.&#x83B7;&#x53D6;&#x53EF;&#x8BFB;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;</p>
+<p>5.&#x4F7F;&#x7528;&#x6570;&#x7EC4;&#xFF0C;&#x504F;&#x79FB;&#x91CF;&#x548C;&#x957F;&#x5EA6;&#x4F5C;&#x4E3A;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;</p>
+<ul>
+<li>&#x8BBF;&#x95EE;&#x975E;&#x5806;&#x7F13;&#x51B2;&#x533A; ByteBuf &#x7684;&#x6570;&#x7EC4;&#x4F1A;&#x5BFC;&#x81F4;UnsupportedOperationException&#xFF0C; &#x53EF;&#x4EE5;&#x4F7F;&#x7528; ByteBuf.hasArray()&#x6765;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x652F;&#x6301;&#x8BBF;&#x95EE;&#x6570;&#x7EC4;&#x3002;</li>
+<li>&#x8FD9;&#x4E2A;&#x7528;&#x6CD5;&#x4E0E; JDK &#x7684; ByteBuffer &#x7C7B;&#x4F3C;</li>
+</ul>
+<h4 id="direct-buffer&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;">DIRECT BUFFER(&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;)</h4>
+<p>&#x201C;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x201D;&#x662F;&#x53E6;&#x4E00;&#x4E2A; ByteBuf &#x6A21;&#x5F0F;&#x3002;&#x5BF9;&#x8C61;&#x7684;&#x6240;&#x6709;&#x5185;&#x5B58;&#x5206;&#x914D;&#x53D1;&#x751F;&#x5728;
+&#x5806;&#xFF0C;&#x5BF9;&#x4E0D;&#x5BF9;&#xFF1F;&#x597D;&#x5427;&#xFF0C;&#x5E76;&#x975E;&#x603B;&#x662F;&#x5982;&#x6B64;&#x3002;&#x5728; JDK1.4 &#x4E2D;&#x88AB;&#x5F15;&#x5165; NIO &#x7684;ByteBuffer &#x7C7B;&#x5141;&#x8BB8; JVM &#x901A;&#x8FC7;&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;&#x5176;&#x76EE;&#x7684;&#x662F;</p>
+<ul>
+<li>&#x901A;&#x8FC7;&#x514D;&#x53BB;&#x4E2D;&#x95F4;&#x4EA4;&#x6362;&#x7684;&#x5185;&#x5B58;&#x62F7;&#x8D1D;, &#x63D0;&#x5347;IO&#x5904;&#x7406;&#x901F;&#x5EA6;;
+&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x5185;&#x5BB9;&#x53EF;&#x4EE5;&#x9A7B;&#x7559;&#x5728;&#x5783;&#x573E;&#x56DE;&#x6536;&#x626B;&#x63CF;&#x7684;&#x5806;&#x533A;&#x4EE5;&#x5916;&#x3002;</li>
+<li>DirectBuffer &#x5728; -XX:MaxDirectMemorySize=xxM&#x5927;&#x5C0F;&#x9650;&#x5236;&#x4E0B;, &#x4F7F;&#x7528; Heap &#x4E4B;&#x5916;&#x7684;&#x5185;&#x5B58;, GC&#x5BF9;&#x6B64;&#x201D;&#x65E0;&#x80FD;&#x4E3A;&#x529B;&#x201D;,&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x7740;&#x89C4;&#x907F;&#x4E86;&#x5728;&#x9AD8;&#x8D1F;&#x8F7D;&#x4E0B;&#x9891;&#x7E41;&#x7684;GC&#x8FC7;&#x7A0B;&#x5BF9;&#x5E94;&#x7528;&#x7EBF;&#x7A0B;&#x7684;&#x4E2D;&#x65AD;&#x5F71;&#x54CD;.(&#x8BE6;&#x89C1;<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html." target="_blank">http://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html.</a>)</li>
+</ul>
+<p>&#x8FD9;&#x5C31;&#x89E3;&#x91CA;&#x4E86;&#x4E3A;&#x4EC0;&#x4E48;&#x201C;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x201D;&#x5BF9;&#x4E8E;&#x90A3;&#x4E9B;&#x901A;&#x8FC7; socket &#x5B9E;&#x73B0;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x7684;&#x5E94;&#x7528;&#x6765;&#x8BF4;&#xFF0C;&#x662F;&#x4E00;&#x79CD;&#x975E;&#x5E38;&#x7406;&#x60F3;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6570;&#x636E;&#x662F;&#x5B58;&#x653E;&#x5728;&#x5806;&#x4E2D;&#x5206;&#x914D;&#x7684;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x90A3;&#x4E48;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x5728;&#x901A;&#x8FC7; socket &#x53D1;&#x9001;&#x6570;&#x636E;&#x4E4B;&#x524D;&#xFF0C;JVM &#x9700;&#x8981;&#x5C06;&#x5148;&#x6570;&#x636E;&#x590D;&#x5236;&#x5230;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x3002;</p>
+<p>&#x4F46;&#x662F;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x7F3A;&#x70B9;&#x662F;&#x5728;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x7684;&#x5206;&#x914D;&#x548C;&#x91CA;&#x653E;&#x4E0A;&#x6BD4;&#x5806;&#x7F13;&#x51B2;&#x533A;&#x66F4;&#x590D;&#x6742;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7F3A;&#x70B9;&#x662F;&#x5982;&#x679C;&#x8981;&#x5C06;&#x6570;&#x636E;&#x4F20;&#x9012;&#x7ED9;&#x9057;&#x7559;&#x4EE3;&#x7801;&#x5904;&#x7406;&#xFF0C;&#x56E0;&#x4E3A;&#x6570;&#x636E;&#x4E0D;&#x662F;&#x5728;&#x5806;&#x4E0A;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x4E0D;&#x5F97;&#x4E0D;&#x4F5C;&#x51FA;&#x4E00;&#x4E2A;&#x526F;&#x672C;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>Listing 5.2 Direct buffer data access</p>
+<pre><code>ByteBuf directBuf = ...
+if (!directBuf.hasArray()) {            //1
+    int length = directBuf.readableBytes();//2
+    byte[] array = new byte[length];    //3
+    directBuf.getBytes(directBuf.readerIndex(), array);        //4    
+    handleArray(array, 0, length);  //5
+}
+</code></pre><p>1.&#x68C0;&#x67E5; ByteBuf &#x662F;&#x4E0D;&#x662F;&#x7531;&#x6570;&#x7EC4;&#x652F;&#x6301;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x662F;&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x3002;</p>
+<p>2.&#x83B7;&#x53D6;&#x53EF;&#x8BFB;&#x7684;&#x5B57;&#x8282;&#x6570;</p>
+<p>3.&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6570;&#x7EC4;&#x6765;&#x4FDD;&#x5B58;&#x5B57;&#x8282;</p>
+<p>4.&#x5B57;&#x8282;&#x590D;&#x5236;&#x5230;&#x6570;&#x7EC4;</p>
+<p>5.&#x5C06;&#x6570;&#x7EC4;&#xFF0C;&#x504F;&#x79FB;&#x91CF;&#x548C;&#x957F;&#x5EA6;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x8C03;&#x7528;&#x67D0;&#x4E9B;&#x5904;&#x7406;&#x65B9;&#x6CD5;</p>
+<p>&#x663E;&#x7136;&#xFF0C;&#x8FD9;&#x6BD4;&#x4F7F;&#x7528;&#x6570;&#x7EC4;&#x8981;&#x591A;&#x505A;&#x4E00;&#x4E9B;&#x5DE5;&#x4F5C;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4E8B;&#x524D;&#x5C31;&#x77E5;&#x9053;&#x5BB9;&#x5668;&#x91CC;&#x7684;&#x6570;&#x636E;&#x5C06;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x88AB;&#x8BBF;&#x95EE;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x66F4;&#x613F;&#x610F;&#x4F7F;&#x7528;&#x5806;&#x5185;&#x5B58;&#x3002;</p>
+<h4 id="composite-buffer&#x590D;&#x5408;&#x7F13;&#x51B2;&#x533A;">COMPOSITE BUFFER(&#x590D;&#x5408;&#x7F13;&#x51B2;&#x533A;)</h4>
+<p>&#x6700;&#x540E;&#x4E00;&#x79CD;&#x6A21;&#x5F0F;&#x662F;&#x590D;&#x5408;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x521B;&#x5EFA;&#x591A;&#x4E2A;&#x4E0D;&#x540C;&#x7684; ByteBuf&#xFF0C;&#x7136;&#x540E;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x8FD9;&#x4E9B; ByteBuf &#x7EC4;&#x5408;&#x7684;&#x89C6;&#x56FE;&#x3002;&#x590D;&#x5408;&#x7F13;&#x51B2;&#x533A;&#x5C31;&#x50CF;&#x4E00;&#x4E2A;&#x5217;&#x8868;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x7684;&#x6DFB;&#x52A0;&#x548C;&#x5220;&#x9664;&#x5176;&#x4E2D;&#x7684; ByteBuf&#xFF0C;JDK &#x7684; ByteBuffer &#x6CA1;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<p>Netty &#x63D0;&#x4F9B;&#x4E86; ByteBuf &#x7684;&#x5B50;&#x7C7B; CompositeByteBuf &#x7C7B;&#x6765;&#x5904;&#x7406;&#x590D;&#x5408;&#x7F13;&#x51B2;&#x533A;&#xFF0C;CompositeByteBuf &#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x89C6;&#x56FE;&#x3002;</p>
+<p><em>&#x8B66;&#x544A;</em></p>
+<p><em>CompositeByteBuf.hasArray() &#x603B;&#x662F;&#x8FD4;&#x56DE; false&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x53EF;&#x80FD;&#x65E2;&#x5305;&#x542B;&#x5806;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x4E5F;&#x5305;&#x542B;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;</em></p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x6761;&#x6D88;&#x606F;&#x7531; header &#x548C; body &#x4E24;&#x90E8;&#x5206;&#x7EC4;&#x6210;&#xFF0C;&#x5C06; header &#x548C; body &#x7EC4;&#x88C5;&#x6210;&#x4E00;&#x6761;&#x6D88;&#x606F;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#xFF0C;&#x53EF;&#x80FD; body &#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x662F; header &#x4E0D;&#x540C;&#xFF0C;&#x4F7F;&#x7528;CompositeByteBuf &#x5C31;&#x4E0D;&#x7528;&#x6BCF;&#x6B21;&#x90FD;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x3002;&#x4E0B;&#x56FE;&#x663E;&#x793A;CompositeByteBuf &#x7EC4;&#x6210; header &#x548C; body&#xFF1A;</p>
+<p>Figure 5.2 CompositeByteBuf holding a header and body</p>
+<p><img src="../images/Figure 5.2 CompositeByteBuf holding a header and body.jpg" alt=""></p>
+<p>&#x4E0B;&#x9762;&#x4EE3;&#x7801;&#x663E;&#x793A;&#x4E86;&#x4F7F;&#x7528; JDK &#x7684; ByteBuffer &#x7684;&#x4E00;&#x4E2A;&#x5B9E;&#x73B0;&#x3002;&#x4E24;&#x4E2A; ByteBuffer &#x7684;&#x6570;&#x7EC4;&#x521B;&#x5EFA;&#x4FDD;&#x5B58;&#x6D88;&#x606F;&#x7684;&#x7EC4;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x521B;&#x5EFA;&#x7528;&#x4E8E;&#x4FDD;&#x5B58;&#x6240;&#x6709;&#x6570;&#x636E;&#x7684;&#x526F;&#x672C;&#x3002;</p>
+<p>Listing 5.3 Composite buffer pattern using ByteBuffer</p>
+<pre><code>// &#x4F7F;&#x7528;&#x6570;&#x7EC4;&#x4FDD;&#x5B58;&#x6D88;&#x606F;&#x7684;&#x5404;&#x4E2A;&#x90E8;&#x5206;
+ByteBuffer[] message = { header, body };
+
+// &#x4F7F;&#x7528;&#x526F;&#x672C;&#x6765;&#x5408;&#x5E76;&#x8FD9;&#x4E24;&#x4E2A;&#x90E8;&#x5206;
+ByteBuffer message2 = ByteBuffer.allocate(
+        header.remaining() + body.remaining());
+message2.put(header);
+message2.put(body);
+message2.flip();
+</code></pre><p>&#x8FD9;&#x79CD;&#x505A;&#x6CD5;&#x663E;&#x7136;&#x662F;&#x4F4E;&#x6548;&#x7684;;&#x5206;&#x914D;&#x548C;&#x590D;&#x5236;&#x64CD;&#x4F5C;&#x4E0D;&#x662F;&#x6700;&#x4F18;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x64CD;&#x7EB5;&#x6570;&#x7EC4;&#x4F7F;&#x4EE3;&#x7801;&#x663E;&#x5F97;&#x5F88;&#x7B28;&#x62D9;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x770B;&#x4F7F;&#x7528; CompositeByteBuf &#x7684;&#x6539;&#x8FDB;&#x7248;&#x672C;</p>
+<p>Listing 5.4 Composite buffer pattern using CompositeByteBuf</p>
+<pre><code>CompositeByteBuf messageBuf = ...;
+ByteBuf headerBuf = ...; // &#x53EF;&#x4EE5;&#x652F;&#x6301;&#x6216;&#x76F4;&#x63A5;
+ByteBuf bodyBuf = ...; // &#x53EF;&#x4EE5;&#x652F;&#x6301;&#x6216;&#x76F4;&#x63A5;
+messageBuf.addComponents(headerBuf, bodyBuf);
+// ....
+messageBuf.removeComponent(0); // &#x79FB;&#x9664;&#x5934;    //2
+
+for (int i = 0; i &lt; messageBuf.numComponents(); i++) {                        //3
+    System.out.println(messageBuf.component(i).toString());
+}
+</code></pre><p>1.&#x8FFD;&#x52A0; ByteBuf &#x5B9E;&#x4F8B;&#x7684; CompositeByteBuf</p>
+<p>2.&#x5220;&#x9664;  &#x7D22;&#x5F15;1&#x7684; ByteBuf</p>
+<p>3.&#x904D;&#x5386;&#x6240;&#x6709; ByteBuf &#x5B9E;&#x4F8B;&#x3002;</p>
+<p>&#x6E05;&#x5355;5.4 &#x6240;&#x793A;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7B80;&#x5355;&#x5730;&#x628A; CompositeByteBuf &#x5F53;&#x4F5C;&#x4E00;&#x4E2A;&#x53EF;&#x8FED;&#x4EE3;&#x904D;&#x5386;&#x7684;&#x5BB9;&#x5668;&#x3002;
+CompositeByteBuf &#x4E0D;&#x5141;&#x8BB8;&#x8BBF;&#x95EE;&#x5176;&#x5185;&#x90E8;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x7684;&#x652F;&#x6301;&#x6570;&#x7EC4;&#xFF0C;&#x4E5F;&#x4E0D;&#x5141;&#x8BB8;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#xFF0C;&#x8FD9;&#x4E00;&#x70B9;&#x7C7B;&#x4F3C;&#x4E8E;&#x76F4;&#x63A5;&#x7F13;&#x51B2;&#x533A;&#x6A21;&#x5F0F;&#xFF0C;&#x5982;&#x56FE;5.5&#x6240;&#x793A;&#x3002;</p>
+<p>Listing 5.5 Access data</p>
+<pre><code>CompositeByteBuf compBuf = ...;
+int length = compBuf.readableBytes();    //1
+byte[] array = new byte[length];        //2
+compBuf.getBytes(compBuf.readerIndex(), array);    //3
+handleArray(array, 0, length);    //4
+</code></pre><p>1.&#x5F97;&#x5230;&#x7684;&#x53EF;&#x8BFB;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;</p>
+<p>2.&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6570;&#x7EC4;,&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x4E3A;&#x53EF;&#x8BFB;&#x5B57;&#x8282;&#x957F;&#x5EA6;&#x3002;</p>
+<p>3.&#x8BFB;&#x53D6;&#x5B57;&#x8282;&#x5230;&#x6570;&#x7EC4;</p>
+<p>4.&#x4F7F;&#x7528;&#x6570;&#x7EC4;&#xFF0C;&#x628A;&#x504F;&#x79FB;&#x91CF;&#x548C;&#x957F;&#x5EA6;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;</p>
+<p>Netty &#x5C1D;&#x8BD5;&#x4F7F;&#x7528; CompositeByteBuf &#x4F18;&#x5316; socket I/O &#x64CD;&#x4F5C;&#xFF0C;&#x6D88;&#x9664;
+&#x539F;&#x751F; JDK &#x4E2D;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x7684;&#x7684;&#x6027;&#x80FD;&#x4F4E;&#x548C;&#x5185;&#x5B58;&#x6D88;&#x8017;&#x95EE;&#x9898;&#x3002;&#x867D;&#x7136;&#x8FD9;&#x662F;&#x5728;Netty &#x7684;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#x4E2D;&#x8FDB;&#x884C;&#x7684;&#x4F18;&#x5316;&#xFF0C;&#x5E76;&#x4E14;&#x662F;&#x4E0D;&#x5BF9;&#x5916;&#x66B4;&#x9732;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x4F5C;&#x4E3A;&#x5F00;&#x53D1;&#x8005;&#x8FD8;&#x662F;&#x5E94;&#x8BE5;&#x610F;&#x8BC6;&#x5230;&#x5176;&#x5F71;&#x54CD;&#x3002;</p>
+<p><em>CompositeByteBuf API</em></p>
+<p><em>CompositeByteBuf &#x63D0;&#x4F9B;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x9644;&#x52A0;&#x529F;&#x80FD;&#x8D85;&#x51FA;&#x4E86;&#x5B83;&#x6240;&#x7EE7;&#x627F;&#x7684; ByteBuf&#x3002;&#x8BF7;&#x53C2;&#x9605;&#x7684; Netty &#x7684; Javadoc &#x6587;&#x6863; API&#x3002;</em></p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../CORE FUNCTIONS/Buffer API.html" class="navigation navigation-prev " aria-label="Previous page: Buffer API"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../CORE FUNCTIONS/Byte-level Operations.html" class="navigation navigation-next " aria-label="Next page: 字节级别的操作"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
