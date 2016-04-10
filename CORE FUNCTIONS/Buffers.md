@@ -1,11 +1,12 @@
 Buffer（缓冲）
 =====
 
-正如我们先前所指出的，网络数据的基本单位永远是 byte(字节)。Java NIO 提供 ByteBuffer 作为字节的容器，但这个类是过于复杂，有点
-难以使用。
+正如我们先前所指出的，网络数据的基本单位永远是 byte(字节)。Java NIO 提供 ByteBuffer 作为字节的容器，但它的作用太有限，也没有进行优化。使用ByteBuffer通常是一件繁琐而又复杂的事。
 
-Netty 中 ByteBuffer 替代是 ByteBuf，一个强大的实现，解决
-JDK 的 API 的限制，以及为网络应用程序开发者一个更好的工具。
-但 ByteBuf 并不仅仅暴露操作一个字节序列的方法;这也是专门的Netty 的 ChannelPipeline 的语义设计。
+幸运的是，Netty提供了一个强大的缓冲实现类用来表示字节序列以及帮助你操作字节和自定义的POJO。这个新的缓冲类，ByteBuf,效率与JDK的ByteBuffer相当。设计ByteBuf是为了在Netty的pipeline中传输数据。它是为了解决ByteBuffer存在的一些问题以及满足网络程序开发者的需求，以提高他们的生产效率而被设计出来的。
 
-在本章中，我们会说明相比于 JDK 的 API，ByteBuf 所提供的卓越的功能和灵活性。这也将使我们能够更好地理解了 Netty 的数据处理。
+请注意，在本书剩下的章节中，为了帮助区分，我将使用数据容器指代Netty的缓冲接口及实现，同时仍然使用Java的缓冲API指代JDK的缓冲实现。
+
+在本章中，你将会学习Netty的缓冲API,为什么它能够超过JDK的实现，它是如何做到这一点，以及为什么它会比JDK的实现更加灵活。你将会深入了解到如何在Netty框架中访问被交换数据以及你能对它做些什么。这一章是之后章节的基础，因为几乎Netty框架的每一个地方都用到了缓冲。
+
+因为数据需要经过ChannelPipeline和ChannelHandler进行传输，而这又离不开缓冲，所以缓冲在Netty应用程序中是十分普遍的。我们将在第6章学习ChannelHandler和ChannelPipeline。
