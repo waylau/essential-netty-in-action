@@ -1,13 +1,11 @@
 ChannelPipeline
 ====
 
-如果我们认为 ChannelPipeline 只是一系列 ChannelHandler 实例,用于拦截 流经一个 Channel 的入站和出站事件,然后很容易理解
-这些 ChannelHandler 可以提供的交互的核心应用程序的数据
-和事件处理逻辑。
+ChannelPipeline 是一系列的ChannelHandler 实例,用于拦截 流经一个 Channel 的入站和出站事件,ChannelPipeline允许用户自己定义对入站/出站事件的处理逻辑，以及pipeline里的各个Handler之间的交互。
 
-每一个创建新 Channel ,分配一个新的 ChannelPipeline。这个关联是
+每一次创建了新的Channel ,都会新建一个新的 ChannelPipeline并绑定到Channel上。这个关联是
 永久性的;Channel 既不能附上另一个 ChannelPipeline 也不能分离
-当前这个。这是一个 Netty 的固定方面的组件生命周期,开发人员无需特别处理。
+当前这个。这些都由Netty负责完成,而无需开发人员的特别处理。
 
 根据它的起源,一个事件将由 ChannelInboundHandler 或
 ChannelOutboundHandler 处理。随后它将调用 ChannelHandlerContext 实现转发到下一个相同的超类型的处理程序。
