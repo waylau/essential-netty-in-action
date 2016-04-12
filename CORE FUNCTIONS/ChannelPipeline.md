@@ -3,7 +3,7 @@ ChannelPipeline
 
 ChannelPipeline 是一系列的ChannelHandler 实例,用于拦截 流经一个 Channel 的入站和出站事件,ChannelPipeline允许用户自己定义对入站/出站事件的处理逻辑，以及pipeline里的各个Handler之间的交互。
 
-每一个创建了新的Channel ,都会新建一个新的 ChannelPipeline并绑定到Handler上。这个关联是
+每一次创建了新的Channel ,都会新建一个新的 ChannelPipeline并绑定到Channel上。这个关联是
 永久性的;Channel 既不能附上另一个 ChannelPipeline 也不能分离
 当前这个。这些都由Netty负责完成,而无需开发人员的特别处理。
 
