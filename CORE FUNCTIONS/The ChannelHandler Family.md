@@ -1,7 +1,7 @@
 ChannelHandler 家族
 ====
 
-在我们深入研究 Channelhandler 内部之前，让我们花几分钟了解下这个领域的 Netty 组件模型的基础。这里提供一个  Channelhandler 及其子类的研究有价值的背景。
+在我们深入研究 ChannelHandler 内部之前，让我们花几分钟了解下这个 Netty 组件模型的基础。这里先对ChannelHandler 及其子类做个简单的介绍。
 
 ### Channel 生命周期
 
@@ -12,12 +12,12 @@ Table 6.1 Channel lifeycle states
 
 状态 | 描述
 -----|---------
-channelUnregistered  | channel创建但未注册到一个 EventLoop.
+channelUnregistered  | channel已创建但未注册到一个 EventLoop.
 channelRegistered  | channel 注册到一个 EventLoop.
-channelActive | channel 的活动的(连接到了它的  remote peer（远程对等方）)，现在可以接收和发送数据了
-channelInactive  | channel 没有连接到 remote peer（远程对等方）
+channelActive | channel 变为活跃状态(连接到了远程主机)，现在可以接收和发送数据了
+channelInactive  | channel 处于非活跃状态，没有连接到远程主机
 
-Channel 的正常的生命周期如下图，当这些状态变化出现，对应的事件将会生成，这样与 ChannelPipeline 中的 ChannelHandler 的交互就能及时响应
+Channel 的正常的生命周期如下图，当状态出现变化，就会触发对应的事件，这样就能与 ChannelPipeline 中的 ChannelHandler进行及时的交互。 
 
 Figure 6.1 Channel State Model
 
@@ -25,7 +25,7 @@ Figure 6.1 Channel State Model
 
 ###ChannelHandler 生命周期
 
-ChannelHandler 定义的生命周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，这些将会调用。每个方法都会带 ChannelHandlerContext 参数
+ChannelHandler 定义的生命周期操作如下表，当 ChannelHandler 添加到 ChannelPipeline，或者从 ChannelPipeline 移除后，对应的方法将会被调用。每个方法都传入了一个 ChannelHandlerContext 参数
 
 Table 6.2 ChannelHandler lifecycle methods
 
@@ -33,13 +33,13 @@ Table 6.2 ChannelHandler lifecycle methods
 -----|---------
 handlerAdded  | 当 ChannelHandler 添加到 ChannelPipeline 调用
 handlerRemoved | 当 ChannelHandler 从 ChannelPipeline 移除时调用
-exceptionCaught | 当 ChannelPipeline 执行发生错误时调用
+exceptionCaught | 当 ChannelPipeline 执行抛出异常时调用
 
 ###ChannelHandler 子接口
 
 Netty 提供2个重要的 ChannelHandler 子接口：
 
-* ChannelInboundHandler - 处理进站数据，并且所有状态都更改
+* ChannelInboundHandler - 处理进站数据和所有状态更改事件
 * ChannelOutboundHandler - 处理出站数据，允许拦截各种操作
 
 *ChannelHandler 适配器*
