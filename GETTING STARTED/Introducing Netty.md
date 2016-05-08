@@ -9,10 +9,10 @@ Netty 介绍
 
 ##谁在用 Netty
 
-Netty 是一个广泛使用的 Java 网络编程框架(Netty 在 2011 年获得了Duke's Choice Award，见<https://www.java.net/dukeschoice/2011>。它的活跃和成长用户社区包括大型公司像 Facebook 和 Instagram 以及流行
-开源项目如 Infinispan, HornetQ, Vert.x, Apache Cassandra 和 Elasticsearch，都利用其强大的网络抽象的核心代码。
+Netty 是一个广泛使用的 Java 网络编程框架（Netty 在 2011 年获得了Duke's Choice Award，见<https://www.java.net/dukeschoice/2011>）。它活跃和成长于用户社区，像大型公司 Facebook 和 Instagram 以及流行
+开源项目如 Infinispan, HornetQ, Vert.x, Apache Cassandra 和 Elasticsearch 等，都利用其强大的对于网络抽象的核心代码。
 
-反过来，Netty 也从这些项目中获益。随着这些项目的作用，也提高其范围和灵活性，比如实现的实现的协议 FTP, SMTP, HTTP, WebSocket 和 SPDY 以及其他二进制和基于文本的。
+反过来，Netty 也从这些开源项目中获益。随着这些项目的作用，Netty 也不断提高了其应用的范围和灵活性，比如已经实现了的协议就有 FTP, SMTP, HTTP, WebSocket 和 SPDY 以及其他二进制和基于文本的协议。
 
 在初创公司中 Firebase 和 Urban Airship 在使用 Netty。前者 Firebase 是使用 long-lived HTTP 连接，后者是使用 各种推送通知。
 
