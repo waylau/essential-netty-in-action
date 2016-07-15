@@ -204,9 +204,9 @@ Listing 14.3 MemcachedRequestEncoder implementation
 
 无论你放入什么到输出缓冲区( 调用 ByteBuf) Netty 的将向服务器发送被写入请求。下一节将展示如何进行反向通过解码器工作。
 
-### 实现 Memcached 编码器
+### 实现 Memcached 解码器
 
-将 MemcachedRequest 对象转为 字节序列，Memcached 仅需将字节转到响应对象返回即可。
+将 MemcachedRequest 对象转为字节序列，Memcached 仅需将字节转到响应对象返回即可。
 
 先见一个 POJO:
 
