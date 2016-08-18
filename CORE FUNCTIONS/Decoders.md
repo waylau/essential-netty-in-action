@@ -29,7 +29,7 @@ handling
 
 Figure 7.1 ToIntegerDecoder
 
-每次从入站的 ByteBuf 读取四个字节，解码成整形，并添加到一个 List （本例是指 Integer）,当不能再添加数据到 lsit 时，它所包含的内容就会被发送到下个 ChannelInboundHandler
+每次从入站的 ByteBuf 读取四个字节，解码成整形，并添加到一个 List （本例是指 Integer）,当不能再添加数据到 list 时，它所包含的内容就会被发送到下个 ChannelInboundHandler
 
 Listing 7.1 ByteToMessageDecoder that decodes to Integer
 
