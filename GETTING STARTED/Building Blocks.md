@@ -76,7 +76,7 @@ Listing 1.4 Callback in action
     }
     });
 
-1.异步连接到远程对等。调用立即返回并提供 ChannelFuture。
+1.异步连接到远程对等节点。调用立即返回并提供 ChannelFuture。
 
 2.操作完成后通知注册一个 ChannelFutureListener 。
 
