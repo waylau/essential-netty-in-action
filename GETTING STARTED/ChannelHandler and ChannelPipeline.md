@@ -26,7 +26,7 @@ Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandlers
 
 *更多 Inbound 、 Outbound Handler*
 
-*一个事件可以通过使用 ChanneHandlerContext 被转发到下一个处理器中的当前链传递到每个方法。因为这是你通常想要的而不是 Netty 提供的抽象基类 ChannelInboundHandlerAdapter 和ChannelOutboundHandlerAdapter。 每个这些提供了一个方法的实现和简单地通过调用 ChannelHandlerContext 的方法来传递事件到下一个处理器。然后，您可以根据实际需求重写方法。*
+*在当前的链（chain）中，事件可以通过 ChanneHandlerContext 传递给下一个 handler。Netty 为此提供了抽象基类ChannelInboundHandlerAdapter 和 hannelOutboundHandlerAdapter，用来处理你想要的事件。 这些类提供的方法的实现，可以简单地通过调用 ChannelHandlerContext 上的相应方法将事件传递给下一个 handler。在实际应用中，您可以按需覆盖相应的方法即可。*
 
 所以，如果出站和入站操作是不同的，当 ChannelPipeline 中有混合处理器时将发生什么？虽然入站和出站处理器都扩展了 ChannelHandler，Netty 的 ChannelInboundHandler 的实现
 和 ChannelOutboundHandler 之间的是有区别的，从而保证数据传递只从一个处理器到下一个处理器保证正确的类型。
