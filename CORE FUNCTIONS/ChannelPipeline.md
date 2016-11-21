@@ -96,22 +96,14 @@ Table 6.8 Inbound operations on ChannelPipeline
 
 名称 | 描述
 -----|---
-fireChannelRegistered | Calls channelRegistered(ChannelHandlerContext) on the next
-ChannelInboundHandler in the ChannelPipeline.
-fireChannelUnregistered | Calls channelUnregistered(ChannelHandlerContext) on the next
-ChannelInboundHandler in the ChannelPipeline.
-fireChannelActive | Calls channelActive(ChannelHandlerContext) on the next
-ChannelInboundHandler in the ChannelPipeline.
-fireChannelInactive | Calls channelInactive(ChannelHandlerContext)on the next
-ChannelInboundHandler in the ChannelPipeline.
-fireExceptionCaught | Calls exceptionCaught(ChannelHandlerContext, Throwable) on the
-next ChannelHandler in the ChannelPipeline.
-fireUserEventTriggered | Calls userEventTriggered(ChannelHandlerContext, Object) on the
-next ChannelInboundHandler in the ChannelPipeline.
-fireChannelRead | Calls channelRead(ChannelHandlerContext, Object msg) on the next
-ChannelInboundHandler in the ChannelPipeline.
-fireChannelReadComplete | Calls channelReadComplete(ChannelHandlerContext) on the next
-ChannelStateHandler in the ChannelPipeline.
+fireChannelRegistered | Calls channelRegistered(ChannelHandlerContext) on the next ChannelInboundHandler in the ChannelPipeline.
+fireChannelUnregistered | Calls channelUnregistered(ChannelHandlerContext) on the next ChannelInboundHandler in the ChannelPipeline.
+fireChannelActive | Calls channelActive(ChannelHandlerContext) on the next ChannelInboundHandler in the ChannelPipeline.
+fireChannelInactive | Calls channelInactive(ChannelHandlerContext)on the next ChannelInboundHandler in the ChannelPipeline.
+fireExceptionCaught | Calls exceptionCaught(ChannelHandlerContext, Throwable) on the next ChannelHandler in the ChannelPipeline.
+fireUserEventTriggered | Calls userEventTriggered(ChannelHandlerContext, Object) on the next ChannelInboundHandler in the ChannelPipeline.
+fireChannelRead | Calls channelRead(ChannelHandlerContext, Object msg) on the next ChannelInboundHandler in the ChannelPipeline.
+fireChannelReadComplete | Calls channelReadComplete(ChannelHandlerContext) on the next ChannelStateHandler in the ChannelPipeline.
 
 在出站方面,处理一个事件将导致底层套接字的一些行动。下表列出了ChannelPipeline API 出站的操作。
 
@@ -119,24 +111,19 @@ Table 6.9 Outbound operations on ChannelPipeline
 
 名称 | 描述
 -----|---
-bind | Bind the Channel to a local address. This will call
-bind(ChannelHandlerContext, SocketAddress, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
-connect | Connect the Channel to a remote address. This will call connect(ChannelHandlerContext, SocketAddress,
-ChannelPromise) on the next ChannelOutboundHandler in the
-ChannelPipeline.
-disconnect | Disconnect the Channel. This will call
-disconnect(ChannelHandlerContext, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
+bind | Bind the Channel to a local address. This will call bind(ChannelHandlerContext, SocketAddress, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
+connect | Connect the Channel to a remote address. This will call connect(ChannelHandlerContext, SocketAddress,ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
+disconnect | Disconnect the Channel. This will call disconnect(ChannelHandlerContext, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
 close | Close the Channel. This will call close(ChannelHandlerContext,ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
 deregister | Deregister the Channel from the previously assigned EventExecutor (the EventLoop). This will call deregister(ChannelHandlerContext,ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
 flush | Flush all pending writes of the Channel. This will call flush(ChannelHandlerContext) on the next ChannelOutboundHandler in the ChannelPipeline.
-write | Write a message to the Channel. This will call
-write(ChannelHandlerContext, Object msg, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline.
-Note: this does not write the message to the underlying Socket, but only queues it. To write it to the Socket call flush() or writeAndFlush().
+write | Write a message to the Channel. This will call write(ChannelHandlerContext, Object msg, ChannelPromise) on the next ChannelOutboundHandler in the ChannelPipeline. Note: this does not write the message to the underlying Socket, but only queues it. To write it to the Socket call flush() or writeAndFlush().
 writeAndFlush | Convenience method for calling write() then flush().
 read | Requests to read more data from the Channel. This will call read(ChannelHandlerContext) on the next ChannelOutboundHandler in the ChannelPipeline.
 
 
 总结下：
+
 * 一个 ChannelPipeline 是用来保存关联到一个 Channel 的ChannelHandler 
 * 可以修改 ChannelPipeline 通过动态添加和删除 ChannelHandler
 * ChannelPipeline 有着丰富的API调用动作来回应入站和出站事件。
