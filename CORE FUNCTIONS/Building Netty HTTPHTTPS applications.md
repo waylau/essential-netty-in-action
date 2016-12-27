@@ -206,7 +206,7 @@ WebSocket 规范及其实现是为了一个更有效的解决方案。简单的�
 
 图8.4给出了一个通用的 WebSocket 协议。在这种情况下的通信开始于普通 HTTP ，并“升级”为双向 WebSocket。
 
-![](../iamges/Figure 8.4 WebSocket protocol.jpg)
+![](../images/Figure 8.4 WebSocket protocol.jpg)
 
 
 1. Client (HTTP) 与 Server 通讯
