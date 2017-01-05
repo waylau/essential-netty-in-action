@@ -61,7 +61,7 @@ Netty 的内部实现使其线程模型表现优异，它会检查正在执行�
 
 下图显示在 EventLoop 中调度任务执行逻辑，这适合 Netty 的线程模型：
 
-![](../images/15.5 EventLoop execution logic flow.jpg)
+![](../images/Figure 15.5 EventLoop execution logic flow.jpg)
 
 
 1. 应在 EventLoop 中执行的任务
