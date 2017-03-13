@@ -185,7 +185,7 @@ Listing 4.3 Blocking networking with Netty
 
 1.创建一个 ServerBootstrap
 
-2.使用 OioEventLoopGroup 允许阻塞模式（Old-IO）
+2.使用 NioEventLoopGroup 允许非阻塞模式（NIO）
 
 3.指定 ChannelInitializer 将给每个接受的连接调用
 
@@ -213,7 +213,7 @@ Listing 4.4 Asynchronous networking with Netty
 	        NioEventLoopGroup group = new NioEventLoopGroup();
 	        try {
 	            ServerBootstrap b = new ServerBootstrap();	//1
-	            b.group(new NioEventLoopGroup(), new NioEventLoopGroup())
+	            b.group(new NioEventLoopGroup(), new NioEventLoopGroup())   //2
 	             .channel(NioServerSocketChannel.class)
 	             .localAddress(new InetSocketAddress(port))
 	             .childHandler(new ChannelInitializer<SocketChannel>() {	//3
@@ -240,7 +240,7 @@ Listing 4.4 Asynchronous networking with Netty
 
 1.创建一个 ServerBootstrap
 
-2.使用 OioEventLoopGroup 允许阻塞模式（Old-IO）
+2.使用 NioEventLoopGroup 允许非阻塞模式（NIO）
 
 3.指定 ChannelInitializer 将给每个接受的连接调用
 
