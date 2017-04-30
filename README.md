@@ -9,8 +9,16 @@ Let's [READ](SUMMARY.md)!
 
 对于初学者，也推荐参阅《[Netty 4.x 用户指南](https://github.com/waylau/netty-4-user-guide)》。与之类似的 NIO 框架还有 MINA, 可参阅《[Apache MINA 2 用户指南](https://github.com/waylau/apache-mina-2.x-user-guide)》
 
+## 关于开源
 
-### Get Started 如何开始阅读
+本项目是针对当前市面上缺乏 Netty 的相关的参考资料而产生的，广大 Netty 爱好者通过开源方式来学习交流 Netty，推动 [Netty 社区](http://netty.io/)的繁荣。
+
+当然，广大开发者需认识到，开源不等于免费，对于原著的版权，仍应抱有敬意。请支持原著：
+
+* 英文原版： Norman Maurer 的 [《Netty in Action》](https://www.manning.com/books/netty-in-action)
+* 中文翻译：何品的[《Netty 实战》](http://www.epubit.com.cn/book/details/4228)
+
+## 如何开始阅读
 
 选择下面入口之一：
 
@@ -18,15 +26,28 @@ Let's [READ](SUMMARY.md)!
 * <http://waylau.gitbooks.io/essential-netty-in-action/> 点击 Read 按钮（同步更新，国内访问速度一般）
 * <http://waylau.com/essential-netty-in-action/>（国内访问速度快，定期更新。最后更新于 2016-2-16）
 
-### Issue 意见、建议
+## 意见、建议
 
 如有勘误、意见或建议欢迎拍砖 <https://github.com/waylau/essential-netty-in-action/issues>
 
-### Contact 联系作者:
+## 联系作者:
 
-* Blog:[waylau.com](http://waylau.com)
-* Gmail: [waylau521(at)gmail.com](mailto:waylau521@gmail.com)
-* Weibo: [waylau521](http://weibo.com/waylau521)
-* Twitter: [waylau521](https://twitter.com/waylau521)
-* Github : [waylau](https://github.com/waylau)
+您也可以直接联系我：
 
+* 博客：https://waylau.com
+* 邮箱：[waylau521(at)gmail.com](mailto:waylau521@gmail.com)
+* 微博：http://weibo.com/waylau521
+* 开源：https://github.com/waylau
+
+## 其他书籍
+
+若您对本书不感冒，笔者还写了其他方面的超过一打的书籍（可见<https://waylau.com/books/>），多是开源电子书。
+
+本人也维护了一个[books-collection](https://github.com/waylau/books-collection)项目，里面提供了优质的专门给程序员的开源、免费图书集合。
+
+## 开源捐赠
+
+
+![开源捐赠](https://waylau.com/images/showmethemoney-sm.jpg)
+
+捐赠所得所有款项将用于开源事业！
