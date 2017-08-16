@@ -13,10 +13,7 @@ Let's [READ](SUMMARY.md)!
 
 本项目是针对当前市面上缺乏 Netty 的相关的参考资料而产生的，广大 Netty 爱好者通过开源方式来学习交流 Netty，推动 [Netty 社区](http://netty.io/)的繁荣。
 
-当然，广大开发者需认识到，开源不等于免费，对于原著的版权，仍应抱有敬意。请支持原著：
-
-* 英文原版： Norman Maurer 的 [《Netty in Action》](https://www.manning.com/books/netty-in-action)
-* 中文翻译：何品的[《Netty 实战》](http://www.epubit.com.cn/book/details/4228)
+当然，广大开发者需认识到，开源不等于免费，对于原著的版权，仍应抱有敬意。请支持原著！
 
 ## 如何开始阅读
 
