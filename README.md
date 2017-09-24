@@ -21,7 +21,7 @@ Let's [READ](SUMMARY.md)!
 
 * <https://github.com/waylau/essential-netty-in-action/> 的 [SUMMARY.md](SUMMARY.md)（源码）
 * <http://waylau.gitbooks.io/essential-netty-in-action/> 点击 Read 按钮（同步更新，国内访问速度一般）
-* <http://waylau.com/essential-netty-in-action/>（国内访问速度快，定期更新。最后更新于 2016-2-16）
+* <https://waylau.com/essential-netty-in-action/>（国内访问速度快，定期更新。最后更新于 2016-2-16）
 
 ## 意见、建议
 
