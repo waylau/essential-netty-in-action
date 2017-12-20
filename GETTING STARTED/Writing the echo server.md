@@ -12,7 +12,7 @@ Echo Server 将会将接受到的数据的拷贝发送给客户端。因此，�
 
 
 * channelRead() - 每个信息入站都会调用
-* channelReadComplete() - 通知处理器最后的 channelread() 是当前批处理中的最后一条消息时调用
+* channelReadComplete() - 通知处理器最后的 channelRead() 是当前批处理中的最后一条消息时调用
 * exceptionCaught()- 读操作时捕获到异常时调用
 
 EchoServerHandler 代码如下：
