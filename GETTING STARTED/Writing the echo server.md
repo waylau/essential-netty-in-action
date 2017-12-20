@@ -70,8 +70,7 @@ Listing 2.2 EchoServerHandler
 关键点要牢记：
 
 * ChannelHandler 是给不同类型的事件调用
-* 应用程序实现或扩展 ChannelHandler 挂接到事件生命周期和
-提供自定义应用逻辑。
+* 应用程序实现或扩展 ChannelHandler 挂接到事件生命周期和提供自定义应用逻辑。
 
 ###引导服务器
 
@@ -148,7 +147,7 @@ Listing 2.3 EchoServer
 
 9.关闭 channel 和 块，直到它被关闭
 
-10.关机的 EventLoopGroup，释放所有资源。
+10.关闭 EventLoopGroup，释放所有资源。
 
 在这个例子中，代码创建 ServerBootstrap 实例（步骤4）。由于我们使用在 NIO 传输，我们已指定 NioEventLoopGroup（3）接受和处理新连接，指定 NioServerSocketChannel（5）为信道类型。在此之后，我们设置本地地址是 InetSocketAddress 与所选择的端口（6）如。服务器将绑定到此地址来监听新的连接请求。
 
