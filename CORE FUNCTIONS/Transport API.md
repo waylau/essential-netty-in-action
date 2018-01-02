@@ -37,7 +37,7 @@ localAddress() |返回已绑定的本地SocketAddress
 remoteAddress()|返回已绑定的远程SocketAddress
 write() |写数据到远程客户端，数据通过ChannelPipeline传输过去
 flush() |刷新先前的数据
-writeAndFlush(...) |一个方便的方法用户调用write(...)而后调用y flush()
+writeAndFlush(...) |一个方便的方法用户调用write(...)而后调用 flush()
 
 后面会越来越熟悉这些方法，现在只需要记住我们的操作都是在相同的接口上运行，Netty 的高灵活性让你可以以不同的传输实现进行重构。
 
