@@ -185,7 +185,7 @@ Listing 4.3 Blocking networking with Netty
 
 1.创建一个 ServerBootstrap
 
-2.使用 NioEventLoopGroup 允许非阻塞模式（NIO）
+2.使用 OioEventLoopGroup 允许阻塞模式
 
 3.指定 ChannelInitializer 将给每个接受的连接调用
 
