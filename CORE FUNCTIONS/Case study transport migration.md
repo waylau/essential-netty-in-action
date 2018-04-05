@@ -210,10 +210,11 @@ Listing 4.4 Asynchronous networking with Netty
 	    public void server(int port) throws Exception {
 	        final ByteBuf buf = Unpooled.unreleasableBuffer(
 	                Unpooled.copiedBuffer("Hi!\r\n", Charset.forName("UTF-8")));
-	        NioEventLoopGroup group = new NioEventLoopGroup();
+	        NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
+		NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 	        try {
 	            ServerBootstrap b = new ServerBootstrap();	//1
-	            b.group(new NioEventLoopGroup(), new NioEventLoopGroup())   //2
+	            b.group(bossGroup, workerGroup)   //2
 	             .channel(NioServerSocketChannel.class)
 	             .localAddress(new InetSocketAddress(port))
 	             .childHandler(new ChannelInitializer<SocketChannel>() {	//3
@@ -232,7 +233,8 @@ Listing 4.4 Asynchronous networking with Netty
 	            ChannelFuture f = b.bind().sync();					//6
 	            f.channel().closeFuture().sync();
 	        } finally {
-	            group.shutdownGracefully().sync();					//7
+	            bossGroup.shutdownGracefully().sync();					//7
+		    workerGroup.shutdownGracefully().sync();
 	        }
 	    }
 	}
