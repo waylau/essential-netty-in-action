@@ -317,5 +317,4 @@ writablesBytes() | Returns the number of bytes that can be written.
 capacity() | Returns the number of bytes that the ByteBuf can hold. After this it will try to expand again until maxCapacity() is reached.
 maxCapacity() | Returns the maximum number of bytes the ByteBuf can hold.
 hasArray() | Returns true if the ByteBuf is backed by a byte array.
-array() | Returns the byte array if the ByteBuf is backed by a byte array, otherwise throws an
-UnsupportedOperationException.
+array() | Returns the byte array if the ByteBuf is backed by a byte array, otherwise throws an UnsupportedOperationException.
