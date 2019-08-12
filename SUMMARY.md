@@ -16,7 +16,7 @@ This is the summary of my book.
 		* [总结](GETTING STARTED/Summary.md)
 	* [Netty 总览](GETTING STARTED/Netty Overview.md)
 		* [Netty 快速入门](GETTING STARTED/Netty Crash Course.md)
-		* [Channel, Event 和 I/O](GETTING STARTED/Channels, Events and IO.md)
+		* [Channel, Event 和 I/O](GETTING STARTED/Channels and Events and IO.md)
 		* [什么是 Bootstrapping 为什么要用](GETTING STARTED/The What and Why of Bootstrapping.md)
 		* [ChannelHandler 和 ChannelPipeline](GETTING STARTED/ChannelHandler and ChannelPipeline.md)
 		* [近距离观察 ChannelHandler](GETTING STARTED/A Closer Look at ChannelHandlers.md)
