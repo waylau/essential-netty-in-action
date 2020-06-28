@@ -96,7 +96,7 @@ Netty 提供了 ByteBuf 的子类 CompositeByteBuf 类来处理复合缓冲区�
 
 *警告*
 
-*CompositeByteBuf.hasArray() 总是返回 false，因为它可能既包含堆缓冲区，也包含直接缓冲区*
+*CompositeByteBuf中的ByteBuf实例可能既包含堆缓冲区，也包含直接缓冲区。因此，如果只有一个实例，那么在CompositeByteBuf上调用hasArray()方法将返回该组件的hasArray()的值。否则将返回false。*
 
 例如，一条消息由 header 和 body 两部分组成，将 header 和 body 组装成一条消息发送出去，可能 body 相同，只是 header 不同，使用CompositeByteBuf 就不用每次都重新分配一个新的缓冲区。下图显示CompositeByteBuf 组成 header 和 body：
 
