@@ -41,7 +41,7 @@ ServerBootstrap用来绑定本地端口，有2个EventLoopGroup
 
 Figure 3.2 Server with two EventLoopGroups
 
-![](../images/Figure 3.2 Server with two EventLoopGroups.jpg)
+![](../images/Figure%203.2%20Server%20with%20two%20EventLoopGroups.jpg)
 
 与 ServerChannel 相关 EventLoopGroup 分配一个 EventLoop 是
 负责创建 Channels 用于传入的连接请求。一旦连接接受，第二个EventLoopGroup 分配一个 EventLoop 给它的 Channel。
