@@ -8,7 +8,7 @@ ChannelPipeline 是 ChannelHandler 链的容器。
 
 Figure 3.3 ChannelHandler class hierarchy
 
-![](../images/Figure 3.3 ChannelHandler class hierarchy.jpg)
+![](../images/Figure%203.3%20ChannelHandler%20class%20hierarchy.jpg)
 
 Netty 中有两个方向的数据流，图3.4 显示的入站(ChannelInboundHandler)和出站(ChannelOutboundHandler)之间有一个明显的区别：若数据是从用户应用程序到远程主机则是“出站(outbound)”，相反若数据时从远程主机到用户应用程序则是“入站(inbound)”。
 
@@ -16,7 +16,7 @@ Netty 中有两个方向的数据流，图3.4 显示的入站(ChannelInboundHand
 
 Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandlers
 
-![](../images/Figure 3.4 ChannelPipeline with inbound and outbound ChannelHandlers.jpg)
+![](../images/Figure%203.4%20ChannelPipeline%20with%20inbound%20and%20outbound%20ChannelHandlers.jpg)
 
 图 3.4 同样展示了进站和出站的处理器都可以被安装在相同的 pipeline 。本例子中，如果消息或任何其他入站事件被读到，将从 pipeline 头部开始，传递到第一个 ChannelInboundHandler。该处理器可能会或可能不会实际修改数据，取决于其特定的功能，在这之后
 该数据将被传递到链中的下一个 ChannelInboundHandler。最后，将数据
